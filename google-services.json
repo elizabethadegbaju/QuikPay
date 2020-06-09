@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "493672569817",
+    "firebase_url": "https://quikpay-mobile.firebaseio.com",
+    "project_id": "quikpay-mobile",
+    "storage_bucket": "quikpay-mobile.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:493672569817:android:06422785e330e6751957c8",
+        "android_client_info": {
+          "package_name": "com.example.quikpay"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "493672569817-0bk19ghqhs1j9vku3mccmue5ut1v2r5p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCnBEmc4LuqMxZcmnmgRtML3y0nB2GdERk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "493672569817-0bk19ghqhs1j9vku3mccmue5ut1v2r5p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
