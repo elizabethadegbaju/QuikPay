@@ -1,20 +1,170 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/welcome"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.welcome.WelcomeFragment">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <TextView
-        android:id="@+id/message"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="WelcomeFragment"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <data>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <variable
+            name="welcomeViewModel"
+            type="com.example.quikpay.ui.welcome.WelcomeViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/welcome"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/navyBlue"
+        tools:context=".ui.welcome.WelcomeFragment"
+        android:theme="@style/AppTheme.NoActionBar">
+
+        <ImageView
+            android:id="@+id/image_intro"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="90dp"
+            android:layout_marginTop="137dp"
+            android:layout_marginEnd="90dp"
+            android:layout_marginBottom="368dp"
+            android:src="@drawable/group_3"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/text_intro_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="21dp"
+            android:text="@string/setup_money_pools"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="@+id/image_intro"
+            app:layout_constraintStart_toStartOf="@+id/image_intro"
+            app:layout_constraintTop_toBottomOf="@+id/image_intro" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="29dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginEnd="246dp"
+            android:layout_marginBottom="556dp"
+            android:text="@string/hi_there_welcome_to"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/text_intro_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:text="@string/setup_money_pools_intro"
+            android:textAlignment="center"
+            android:textColor="@color/offwhite"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="@+id/text_intro_title"
+            app:layout_constraintStart_toStartOf="@+id/text_intro_title"
+            app:layout_constraintTop_toBottomOf="@+id/text_intro_title" />
+
+        <ImageView
+            android:id="@+id/image_intro_logo"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="3dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="1dp"
+            android:src="@drawable/component_3__11"
+            app:layout_constraintBottom_toBottomOf="@+id/textView3"
+            app:layout_constraintStart_toEndOf="@+id/textView3"
+            app:layout_constraintTop_toTopOf="@+id/textView3" />
+
+        <ImageView
+            android:id="@+id/image_step1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="115dp"
+            android:layout_marginTop="78dp"
+            android:layout_marginEnd="180dp"
+            app:layout_constraintEnd_toEndOf="@+id/text_intro_text"
+            app:layout_constraintStart_toStartOf="@+id/text_intro_text"
+            app:layout_constraintTop_toBottomOf="@+id/text_intro_text"
+            app:srcCompat="@drawable/ic_square_lightblue" />
+
+        <ImageView
+            android:id="@+id/image_step2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            app:layout_constraintStart_toEndOf="@+id/image_step1"
+            app:layout_constraintTop_toTopOf="@+id/image_step1"
+            app:srcCompat="@drawable/ic_square_white" />
+
+        <ImageView
+            android:id="@+id/image_step3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            app:layout_constraintStart_toEndOf="@+id/image_step2"
+            app:layout_constraintTop_toTopOf="@+id/image_step2"
+            app:srcCompat="@drawable/ic_square_white" />
+
+        <Button
+            android:id="@+id/btn_skip"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="53dp"
+            android:layout_marginTop="99dp"
+            android:layout_marginEnd="273dp"
+            android:layout_marginBottom="51dp"
+            android:onClick="@{()->welcomeViewModel.onNavigateToLogin()}"
+            android:text="@string/skip"
+            android:textColor="@color/white"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/image_step1" />
+
+        <Button
+            android:id="@+id/btn_next"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="135dp"
+            android:layout_marginTop="0dp"
+            android:onClick="@{()->welcomeViewModel.next()}"
+            android:text="@string/next"
+            android:textColor="@color/lightBlue"
+            android:visibility="visible"
+            app:layout_constraintStart_toEndOf="@id/btn_skip"
+            app:layout_constraintTop_toTopOf="@id/btn_skip" />
+
+        <Button
+            android:id="@+id/btn_get_started"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="272dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="44dp"
+            android:layout_marginTop="91dp"
+            android:layout_marginEnd="44dp"
+            android:layout_marginBottom="42dp"
+            android:onClick="@{()->welcomeViewModel.onNavigateToLogin()}"
+            android:text="@string/get_started"
+            android:textColor="@color/lightBlue"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/image_step1" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

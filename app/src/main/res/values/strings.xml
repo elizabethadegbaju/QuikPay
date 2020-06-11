@@ -9,4 +9,14 @@
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
+    <string name="setup_money_pools">Setup Money Pools</string>
+    <string name="hi_there_welcome_to">Hi there,\nWelcome to </string>
+    <string name="setup_money_pools_intro">Request for money from friends and family\n when splitting bills</string>
+    <string name="fund_wallet">Fund Wallet</string>
+    <string name="make_payment">Make Payment</string>
+    <string name="fund_wallet_intro">Add funds to your mobile wallet from any bank account</string>
+    <string name="make_payment_intro">Send money to anyone from your wallet</string>
+    <string name="get_started">Get Started</string>
+    <string name="skip">Skip</string>
+    <string name="next">Next</string>
 </resources>
