@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.os.Handler
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.postDelayed
+import com.example.quikpay.ui.welcome.WelcomeActivity
 
 class SplashActivity : AppCompatActivity() {
     var handler = Handler()
@@ -14,7 +15,7 @@ class SplashActivity : AppCompatActivity() {
         setContentView(R.layout.activity_splash)
 
         handler.postDelayed(3000) {
-            val intent = Intent(this@SplashActivity, MainActivity::class.java)
+            val intent = Intent(this@SplashActivity, WelcomeActivity::class.java)
             startActivity(intent)
             finish()
         }

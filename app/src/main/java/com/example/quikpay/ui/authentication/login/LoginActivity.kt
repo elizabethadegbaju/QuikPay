@@ -1,12 +1,13 @@
-package com.example.quikpay
+package com.example.quikpay.ui.authentication.login
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.example.quikpay.R
 
-class MainActivity : AppCompatActivity() {
-
+class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.main_activity)
+        setContentView(R.layout.activity_login)
     }
+
 }

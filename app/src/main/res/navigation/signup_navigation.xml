@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/signup_navigation"
+    app:startDestination="@id/signupFirstFragment">
+    <fragment
+        android:id="@+id/signupFirstFragment"
+        android:name="com.example.quikpay.ui.authentication.signup.SignupOneFragment"
+        android:label="SignupFirstFragment">
+        <action
+            android:id="@+id/action_signupFirstFragment_to_signupSecondFragment"
+            app:destination="@id/signupSecondFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/signupSecondFragment"
+        android:name="com.example.quikpay.ui.authentication.signup.SignupTwoFragment"
+        android:label="SignupSecondFragment" />
+</navigation>

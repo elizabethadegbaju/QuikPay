@@ -14,7 +14,7 @@
         android:id="@+id/welcome"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/navyBlue"
+        android:background="@color/colorAccent"
         tools:context=".ui.welcome.WelcomeFragment"
         android:theme="@style/AppTheme.NoActionBar">
 
@@ -143,7 +143,7 @@
             android:layout_marginTop="0dp"
             android:onClick="@{()->welcomeViewModel.next()}"
             android:text="@string/next"
-            android:textColor="@color/lightBlue"
+            android:textColor="@color/colorPrimary"
             android:visibility="visible"
             app:layout_constraintStart_toEndOf="@id/btn_skip"
             app:layout_constraintTop_toTopOf="@id/btn_skip" />
@@ -159,7 +159,7 @@
             android:layout_marginBottom="42dp"
             android:onClick="@{()->welcomeViewModel.onNavigateToLogin()}"
             android:text="@string/get_started"
-            android:textColor="@color/lightBlue"
+            android:textColor="@color/colorPrimary"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

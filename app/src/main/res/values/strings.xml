@@ -19,4 +19,31 @@
     <string name="get_started">Get Started</string>
     <string name="skip">Skip</string>
     <string name="next">Next</string>
+    <string name="login_title">Login</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="first_time_here_sign_up">First Time Here? Sign Up</string>
+    <string name="already_have_an_account_login">Already have an account? Login</string>
+    <string name="title_activity_god">GodActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
+
+    <string name="home_second">Home Second</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="_2">2</string>
+    <string name="new_account">New Account</string>
+    <string name="steps">Steps</string>
+    <string name="prompt_confirm_password">Confirm Password</string>
+    <string name="signup">Signup</string>
+    <string name="label_continue">Continue</string>
+    <string name="back_to_login"><![CDATA[< Back to login]]></string>
 </resources>

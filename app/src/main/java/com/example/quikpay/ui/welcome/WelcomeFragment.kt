@@ -1,5 +1,6 @@
 package com.example.quikpay.ui.welcome
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,10 +8,10 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.fragment.findNavController
+import androidx.lifecycle.ViewModelProvider
 import com.example.quikpay.R
-import com.example.quikpay.databinding.WelcomeFragmentBinding
+import com.example.quikpay.databinding.FragmentWelcomeBinding
+import com.example.quikpay.ui.authentication.login.LoginActivity
 
 class WelcomeFragment : Fragment() {
 
@@ -24,16 +25,16 @@ class WelcomeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        viewModel = ViewModelProviders.of(this).get(WelcomeViewModel::class.java)
-        val binding: WelcomeFragmentBinding =
-            DataBindingUtil.inflate(inflater, R.layout.welcome_fragment, container, false)
+        viewModel = ViewModelProvider(this).get(WelcomeViewModel::class.java)
+        val binding: FragmentWelcomeBinding =
+            DataBindingUtil.inflate(inflater, R.layout.fragment_welcome, container, false)
         binding.welcomeViewModel = viewModel
         binding.lifecycleOwner = this
 
         viewModel.navigateToLogin.observe(viewLifecycleOwner, Observer {
             if (it == true) {
-                this.findNavController()
-                    .navigate(WelcomeFragmentDirections.actionWelcomeFragmentToLoginFragment())
+                val intent = Intent(activity, LoginActivity::class.java)
+                startActivity(intent)
                 viewModel.doneNavigating()
             }
         })
