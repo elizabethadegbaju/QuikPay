@@ -46,4 +46,5 @@
     <string name="signup">Signup</string>
     <string name="label_continue">Continue</string>
     <string name="back_to_login"><![CDATA[< Back to login]]></string>
+    <string name="menu_logout">Logout</string>
 </resources>

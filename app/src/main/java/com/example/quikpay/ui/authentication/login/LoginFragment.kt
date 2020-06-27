@@ -45,7 +45,6 @@ class LoginFragment : Fragment(), AuthListener, KodeinAware {
                 )
             }
         })
-
         return binding.root
     }
 
@@ -55,7 +54,7 @@ class LoginFragment : Fragment(), AuthListener, KodeinAware {
 
     override fun onSuccess() {
         progressbar.visibility = View.GONE
-        activity?.startHomeActivity()
+        requireActivity().startHomeActivity()
     }
 
     override fun onFailure(message: String) {
@@ -63,11 +62,11 @@ class LoginFragment : Fragment(), AuthListener, KodeinAware {
         Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
     }
 
-    override fun onStart() {
-        super.onStart()
+//    override fun onStart() {
+//        super.onStart()
 //        viewModel.user?.let {
-//            activity?.startHomeActivity()
+//            requireActivity().startHomeActivity()
 //        }
-    }
+//    }
 
 }

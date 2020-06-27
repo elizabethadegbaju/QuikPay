@@ -1,6 +1,7 @@
 package com.example.quikpay.ui.authentication
 
 import android.content.Intent
+import android.net.Uri
 import android.text.TextUtils
 import android.view.View
 import androidx.lifecycle.LiveData
@@ -13,6 +14,7 @@ import com.example.quikpay.ui.authentication.signup.SignupActivity
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+
 
 class AuthViewModel(
     private val repository: UserRepository
@@ -37,6 +39,14 @@ class AuthViewModel(
     private var _phoneNo = MutableLiveData<String>()
     val phoneNo: LiveData<String>
         get() = _phoneNo
+
+    private var _filepath = MutableLiveData<Uri>()
+    private val filePath: LiveData<Uri>
+        get() = _filepath
+
+    private var _uploadPhoto = MutableLiveData<Boolean>()
+    val uploadPhoto: LiveData<Boolean>
+        get() = _uploadPhoto
 
     private var _navigateToPageTwo = MutableLiveData<Boolean>()
     val navigateToPageTwo: LiveData<Boolean>
@@ -90,6 +100,9 @@ class AuthViewModel(
         }
         authListener?.onStarted()
         val disposable = repository.register(email.value!!, password.value!!)
+            .andThen(repository.login(email.value!!, password.value!!))
+            .andThen(repository.uploadFile(filePath.value!!, phoneNo.value!!))
+            .andThen(repository.saveUserDetails(name.value!!, phoneNo.value!!))
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
@@ -115,14 +128,6 @@ class AuthViewModel(
         _navigateToPageTwo.value = false
     }
 
-    fun doneStartSignup() {
-        _startSignup.value = false
-    }
-
-    fun doneStartLogin() {
-        _startLogin.value = false
-    }
-
     fun goToLogin(view: View) {
         Intent(view.context, LoginActivity::class.java).also {
             view.context.startActivity(it)
@@ -140,9 +145,10 @@ class AuthViewModel(
         disposables.dispose()
     }
 
-    fun setSignupPageOneValues(name: String, phoneNo: String) {
+    fun setSignupPageOneValues(name: String, phoneNo: String, filePath: Uri?) {
         _name.value = name
         _phoneNo.value = phoneNo
+        _filepath.value = filePath
     }
 
     fun setSignupPageTwoValues(email: String, password: String, confirmPassword: String) {
@@ -153,6 +159,14 @@ class AuthViewModel(
     fun setLoginValues(email: String, password: String) {
         _email.value = email
         _password.value = password
+    }
+
+    fun startUploadPhoto() {
+        _uploadPhoto.value = true
+    }
+
+    fun doneUploadPhoto() {
+        _uploadPhoto.value = false
     }
 
 }
