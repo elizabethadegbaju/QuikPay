@@ -6,6 +6,8 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textViewStyle">@style/SegoeUITextViewStyle</item>
+        <item name="materialButtonStyle">@style/SegoeUIButtonStyle</item>
     </style>
 
     <!-- Splash screen theme. -->
@@ -21,5 +23,17 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="SegoeUITextViewStyle" parent="Widget.MaterialComponents.TextView">
+        <item name="android:fontFamily">@font/segoe_ui</item>
+    </style>
+
+    <style name="SegoeUIButtonStyle" parent="android:style/Widget.Button">
+        <item name="android:fontFamily">@font/segoe_ui</item>
+        <item name="android:backgroundTint">@color/colorAccent</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:shadowColor">#ffd1d1d1</item>
+        <item name="android:textSize">18sp</item>
+    </style>
 
 </resources>

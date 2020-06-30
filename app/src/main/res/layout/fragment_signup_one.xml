@@ -14,7 +14,7 @@
         android:id="@+id/signup"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorAccent"
+        android:background="@color/colorPrimary"
         tools:context=".ui.authentication.signup.SignupOneFragment">
 
         <com.google.android.material.textfield.TextInputLayout
@@ -192,10 +192,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="36dp"
             android:onClick="@{() -> authViewModel.goToSignupNextPage()}"
-            android:shadowColor="#ffd1d1d1"
             android:text="@string/next"
-            android:textColor="@color/colorAccent"
-            android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/edit_text_phone_no" />

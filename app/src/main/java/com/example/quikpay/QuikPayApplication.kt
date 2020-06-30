@@ -20,6 +20,7 @@ class QuikPayApplication : Application(), KodeinAware {
         bind() from singleton { FirebaseSource() }
         bind() from singleton { UserRepository(instance()) }
         bind() from provider { AuthViewModelFactory(instance()) }
+        bind() from provider { GodViewModelFactory(instance()) }
 
     }
 }

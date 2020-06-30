@@ -39,11 +39,31 @@ class SignupTwoFragment : Fragment(), AuthListener, KodeinAware {
 
         viewModel.startSignup.observe(requireActivity(), Observer {
             if (it == true) {
-                viewModel.setSignupPageTwoValues(
-                    binding.email.text.toString(),
-                    binding.password.text.toString(),
-                    binding.confirmPassword.text.toString()
-                )
+                val email = binding.email.text.toString()
+                val password = binding.password.text.toString()
+                val confirmPassword = binding.confirmPassword.text.toString()
+                if (email.isNotEmpty() && password.isNotEmpty() && confirmPassword.isNotEmpty()) {
+                    if (password == confirmPassword) {
+                        viewModel.setSignupPageTwoValues(email, password, confirmPassword)
+                        viewModel.signup()
+                    } else {
+                        binding.confirmPassword.error = "Passwords do not match"
+                        binding.confirmPassword.requestFocus()
+                    }
+                } else {
+                    if (confirmPassword.isEmpty()) {
+                        binding.confirmPassword.error = "Passwords do not match"
+                        binding.confirmPassword.requestFocus()
+                    }
+                    if (password.isEmpty()) {
+                        binding.password.error = "Password cannot be empty"
+                        binding.password.requestFocus()
+                    }
+                    if (email.isEmpty()) {
+                        binding.email.error = "Email cannot be empty"
+                        binding.email.requestFocus()
+                    }
+                }
             }
         })
 

@@ -1,4 +1,4 @@
-package com.example.quikpay.ui.authentication.forgotpassword
+package com.example.quikpay.ui.authentication.signup
 
 import android.content.Intent
 import android.os.Bundle
@@ -12,6 +12,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.quikpay.R
 import com.example.quikpay.databinding.FragmentVerificationCodeBinding
+import com.example.quikpay.ui.authentication.forgotpassword.ForgotPasswordViewModel
+
 import com.example.quikpay.ui.authentication.login.LoginActivity
 
 /**

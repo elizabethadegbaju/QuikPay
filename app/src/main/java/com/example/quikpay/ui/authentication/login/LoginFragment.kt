@@ -62,11 +62,11 @@ class LoginFragment : Fragment(), AuthListener, KodeinAware {
         Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
     }
 
-//    override fun onStart() {
-//        super.onStart()
-//        viewModel.user?.let {
-//            requireActivity().startHomeActivity()
-//        }
-//    }
+    override fun onStart() {
+        super.onStart()
+        viewModel.user?.let {
+            requireActivity().startHomeActivity()
+        }
+    }
 
 }

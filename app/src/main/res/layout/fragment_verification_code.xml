@@ -14,8 +14,8 @@
         android:id="@+id/frameLayout3"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorAccent"
-        tools:context=".ui.authentication.forgotpassword.VerificationCodeFragment">
+        android:background="@color/colorPrimary"
+        tools:context=".ui.authentication.signup.VerificationCodeFragment">
 
         <ImageView
             android:id="@+id/profilePicture"
@@ -163,10 +163,7 @@
             android:layout_marginTop="154dp"
             android:layout_marginBottom="126dp"
             android:onClick="@{()->forgotPasswordViewModel.onClickNewPassword()}"
-            android:shadowColor="#ffd1d1d1"
             android:text="@string/label_continue"
-            android:textColor="@color/colorAccent"
-            android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

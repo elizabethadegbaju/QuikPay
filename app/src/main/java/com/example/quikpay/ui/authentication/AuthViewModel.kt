@@ -2,7 +2,6 @@ package com.example.quikpay.ui.authentication
 
 import android.content.Intent
 import android.net.Uri
-import android.text.TextUtils
 import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -70,10 +69,10 @@ class AuthViewModel(
 
     fun login() {
         _startLogin.value = true
-        if (email.value.isNullOrEmpty() || password.value.isNullOrEmpty()) {
-            authListener?.onFailure("Invalid email or password")
-            return
-        }
+//        if (email.value.isNullOrEmpty() || password.value.isNullOrEmpty()) {
+//            authListener?.onFailure("Invalid email or password")
+//            return
+//        }
 
         authListener?.onStarted()
 
@@ -89,15 +88,12 @@ class AuthViewModel(
         _startLogin.value = false
     }
 
-    fun signup() {
+    fun startSignupFun() {
         _startSignup.value = true
-        if (email.value.isNullOrEmpty() || password.value.isNullOrEmpty()) {
-            authListener?.onFailure("Please input all values")
-            return
-        } else if (!TextUtils.equals(password.value, confirmPassword.value)) {
-            authListener?.onFailure("Passwords do not match")
-            return
-        }
+    }
+
+    fun signup() {
+        _startSignup.value = false
         authListener?.onStarted()
         val disposable = repository.register(email.value!!, password.value!!)
             .andThen(repository.login(email.value!!, password.value!!))
@@ -111,7 +107,6 @@ class AuthViewModel(
                 authListener?.onFailure(it.message!!)
             })
         disposables.add(disposable)
-        _startSignup.value = false
     }
 
     fun goToSignup(view: View) {
@@ -147,7 +142,7 @@ class AuthViewModel(
 
     fun setSignupPageOneValues(name: String, phoneNo: String, filePath: Uri?) {
         _name.value = name
-        _phoneNo.value = phoneNo
+        _phoneNo.value = phoneNo.trim().removePrefix("+234").removePrefix("234").removePrefix("0")
         _filepath.value = filePath
     }
 

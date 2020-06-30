@@ -45,13 +45,31 @@ class SignupOneFragment : Fragment(), KodeinAware {
 
         viewModel.navigateToPageTwo.observe(viewLifecycleOwner, Observer {
             if (it == true) {
-                this.findNavController()
-                    .navigate(SignupOneFragmentDirections.actionSignupFirstFragmentToSignupSecondFragment())
-                viewModel.setSignupPageOneValues(
-                    binding.fullName.text.toString(),
-                    binding.phoneNo.text.toString(),
-                    filePath
-                )
+                val name = binding.fullName.text.toString()
+                val mobile = binding.phoneNo.text.toString()
+                if (mobile.isNotEmpty() && name.isNotEmpty()) {
+                    if (mobile.length in 10..14) {
+                        this.findNavController()
+                            .navigate(SignupOneFragmentDirections.actionSignupFirstFragmentToSignupSecondFragment())
+                        viewModel.setSignupPageOneValues(
+                            name,
+                            mobile,
+                            filePath
+                        )
+                    } else {
+                        binding.phoneNo.error = "Enter a valid phone number"
+                        binding.phoneNo.requestFocus()
+                    }
+                } else {
+                    if (mobile.isEmpty()) {
+                        binding.phoneNo.error = "Phone number cannot be empty"
+                        binding.phoneNo.requestFocus()
+                    }
+                    if (name.isEmpty()) {
+                        binding.fullName.error = "Full name cannot be empty"
+                        binding.fullName.requestFocus()
+                    }
+                }
                 viewModel.doneNavigateToSignupNextPage()
             }
         })
