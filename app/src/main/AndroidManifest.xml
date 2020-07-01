@@ -2,6 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.quikpay">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
     <application
         android:name=".QuikPayApplication"
         android:allowBackup="true"
@@ -11,7 +16,7 @@
         android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.reportissue.ReportIssueActivity"></activity>
+        <activity android:name=".ui.reportissue.ReportIssueActivity" />
         <activity android:name=".ui.EditProfileActivity" />
         <activity
             android:name=".ui.authentication.forgotpassword.ForgotPasswordActivity"

@@ -3,6 +3,8 @@ package com.example.quikpay
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
+import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
@@ -14,18 +16,19 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.example.quikpay.databinding.ActivityGodBinding
+import com.example.quikpay.databinding.NavHeaderGodBinding
 import com.example.quikpay.ui.reportissue.ReportIssueActivity
-import com.example.quikpay.utils.startLoginActivity
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
-import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.activity_god.*
 import kotlinx.android.synthetic.main.app_bar_god.view.*
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.kodein
 import org.kodein.di.generic.instance
 
-class GodActivity : AppCompatActivity(), KodeinAware {
+class GodActivity : AppCompatActivity(), ProgressListener, KodeinAware {
     override val kodein by kodein()
     private val factory: GodViewModelFactory by instance()
     private lateinit var appBarConfiguration: AppBarConfiguration
@@ -37,13 +40,22 @@ class GodActivity : AppCompatActivity(), KodeinAware {
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_god)
         viewModel = ViewModelProvider(this, factory).get(GodViewModel::class.java)
+        viewModel.progressListener = this
         binding.godViewModel = viewModel
         binding.lifecycleOwner = this
+        val header = binding.navView.getHeaderView(0)
+        val headerBinding: NavHeaderGodBinding = NavHeaderGodBinding.bind(header)
+        viewModel.fetchUserDetails()
 
-        viewModel.navigateToLogin.observe(this, Observer {
-            if (it == true) {
-                this.startLoginActivity()
-                viewModel.onNavigateToLogin()
+        //Update navigation drawer header details when userDetails is updated
+        viewModel.userDetails.observe(this, Observer {
+            if (it != null) {
+                Glide.with(this)
+                    .load(viewModel.userDetails.value?.photoURL)
+                    .apply(RequestOptions().placeholder(R.drawable.ic_person_white_24dp))
+                    .into(headerBinding.profilePicture)
+                headerBinding.displayName.text = viewModel.userDetails.value!!.name
+                headerBinding.profilePicture.setBackgroundResource(R.drawable.round_outline)
             }
         })
         viewModel.navigateToReportIssue.observe(this, Observer {
@@ -56,11 +68,6 @@ class GodActivity : AppCompatActivity(), KodeinAware {
         val toolbar: Toolbar = binding.root.toolbar
         setSupportActionBar(toolbar)
 
-        val fab: FloatingActionButton = binding.root.fab
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
-        }
         val drawerLayout: DrawerLayout = binding.drawerLayout
         val navView: NavigationView = binding.navView
         val navController = findNavController(R.id.nav_host_fragment)
@@ -68,7 +75,7 @@ class GodActivity : AppCompatActivity(), KodeinAware {
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow
+                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow, R.id.nav_edit_profile
             ), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -84,5 +91,18 @@ class GodActivity : AppCompatActivity(), KodeinAware {
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
+    }
+
+    override fun onStarted() {
+        progressbar.visibility = View.VISIBLE
+    }
+
+    override fun onSuccess() {
+        progressbar.visibility = View.GONE
+    }
+
+    override fun onFailure(message: String) {
+        progressbar.visibility = View.GONE
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 }

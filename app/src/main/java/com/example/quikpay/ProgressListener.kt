@@ -1,4 +1,4 @@
-package com.example.quikpay.ui.authentication
+package com.example.quikpay
 
 interface ProgressListener {
     fun onStarted()

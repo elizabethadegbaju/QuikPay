@@ -2,6 +2,8 @@ package com.example.quikpay.data.repositories.firebase
 
 import android.net.Uri
 import android.util.Log
+import com.example.quikpay.data.models.Complaint
+import com.example.quikpay.data.models.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
@@ -21,6 +23,7 @@ class FirebaseSource {
         FirebaseStorage.getInstance().reference
     }
 
+    lateinit var userDetails: User
     private lateinit var photoURL: String
 
     fun currentUser() = auth.currentUser
@@ -55,13 +58,9 @@ class FirebaseSource {
 
     fun saveUserDetails(name: String, phoneNo: String) =
         Completable.create { emitter ->
-            val user = hashMapOf(
-                "name" to name,
-                "phoneNo" to phoneNo,
-                "photoURL" to photoURL
-            )
-            db.collection("users")
-                .document(currentUser()!!.uid)
+            val user = User(name, currentUser()!!.email!!, phoneNo, photoURL)
+            val usersRef = db.collection("users")
+            usersRef.document(currentUser()!!.uid)
                 .set(user)
                 .addOnCompleteListener {
                     if (!emitter.isDisposed) {
@@ -76,15 +75,16 @@ class FirebaseSource {
     fun reportIssue(message: String, date: String, timezone: String) =
         Completable.create { emitter ->
             Log.d("ReportIssueFirebase", "starting the process")
-            val issue = hashMapOf(
-                "message" to message,
-                "user" to currentUser()!!.email,
-                "date" to date,
-                "tz" to timezone
-            )
+//            val issue = hashMapOf(
+//                "message" to message,
+//                "user" to currentUser()!!.email,
+//                "date" to date,
+//                "tz" to timezone
+//            )
+            val issue = Complaint(message, currentUser()!!.email!!, date, timezone)
             Log.d("ReportIssueFirebase", "created the issue item")
-            db.collection("complaints")
-                .add(issue)
+            val complaintsRef = db.collection("complaints")
+            complaintsRef.add(issue)
                 .addOnCompleteListener {
                     if (!emitter.isDisposed) {
                         if (it.isSuccessful) {
@@ -100,12 +100,12 @@ class FirebaseSource {
 
 
     fun uploadFile(filePath: Uri, phoneNo: String) = Completable.create { emitter ->
-        val riversRef: StorageReference = storageReference.child("images/$phoneNo.jpg")
-        riversRef.putFile(filePath)
+        val imagesRef = storageReference.child("images/$phoneNo.jpg")
+        imagesRef.putFile(filePath)
             .addOnCompleteListener {
                 if (!emitter.isDisposed) {
                     if (it.isSuccessful) {
-                        riversRef.downloadUrl
+                        imagesRef.downloadUrl
                             .addOnCompleteListener { task ->
                                 photoURL = task.result.toString()
                                 emitter.onComplete()
@@ -115,4 +115,20 @@ class FirebaseSource {
                 }
             }
     }
+
+    fun fetchUserDetails() = Completable.create { emitter ->
+        val usersRef = db.collection("users")
+        usersRef.document(currentUser()!!.uid).get()
+            .addOnCompleteListener {
+                if (!emitter.isDisposed) {
+                    if (it.isSuccessful) {
+                        userDetails = it.result?.toObject(User::class.java)!!
+                    }
+                    emitter.onComplete()
+                } else
+                    emitter.onError(it.exception!!)
+            }
+    }
+
+    fun fetchImage() {}
 }

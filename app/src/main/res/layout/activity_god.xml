@@ -11,77 +11,99 @@
 
     </data>
 
-    <androidx.drawerlayout.widget.DrawerLayout
-        android:id="@+id/drawer_layout"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fitsSystemWindows="true"
-        tools:openDrawer="start">
+        android:fitsSystemWindows="true">
 
-        <include
-            layout="@layout/app_bar_god"
+        <androidx.drawerlayout.widget.DrawerLayout
+            android:id="@+id/drawer_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-        <com.google.android.material.navigation.NavigationView
-            android:id="@+id/nav_view"
-            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_gravity="start"
-            android:fitsSystemWindows="true"
-            app:headerLayout="@layout/nav_header_god"
-            app:menu="@menu/activity_god_drawer">
+            tools:openDrawer="start">
 
-            <LinearLayout
+            <include
+                layout="@layout/app_bar_god"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:orientation="vertical"
-                android:padding="16dp">
+                android:layout_height="match_parent" />
 
-                <com.google.android.material.textview.MaterialTextView
+            <com.google.android.material.navigation.NavigationView
+                android:id="@+id/nav_view"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="start"
+                android:backgroundTint="@color/colorPrimary"
+                android:fitsSystemWindows="true"
+                app:headerLayout="@layout/nav_header_god"
+                app:itemIconTint="@color/greyLight"
+                app:itemTextColor="@color/colorAccent"
+                app:menu="@menu/activity_god_drawer">
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:onClick="@{()->godViewModel.reportAnIssue()}"
-                    android:text="Report an issue" />
+                    android:layout_gravity="bottom"
+                    android:orientation="vertical"
+                    android:padding="16dp">
 
-                <View
-                    android:id="@+id/divider2"
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:layout_marginBottom="16dp"
-                    android:background="?android:attr/listDivider" />
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="32dp"
-                    android:onClick="@{()->godViewModel.logout()}"
-                    android:orientation="horizontal">
-
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/nav_logout_logo"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@drawable/ic_exit_black_24dp" />
-
-                    <TextView
-                        android:id="@+id/logout"
-                        android:layout_width="wrap_content"
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:text="@string/menu_logout"
-                        app:layout_constraintBottom_toBottomOf="@id/nav_logout_logo"
-                        app:layout_constraintStart_toEndOf="@+id/nav_logout_logo"
-                        app:layout_constraintTop_toTopOf="@id/nav_logout_logo" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                        android:layout_marginBottom="8dp"
+                        android:onClick="@{()->godViewModel.reportAnIssue()}"
+                        android:text="Report an issue"
+                        android:textColor="@color/greyLight" />
 
-            </LinearLayout>
-        </com.google.android.material.navigation.NavigationView>
+                    <View
+                        android:id="@+id/divider2"
+                        android:layout_width="160dp"
+                        android:layout_height="2dp"
+                        android:layout_marginBottom="16dp"
+                        android:background="?android:attr/listDivider"
+                        android:backgroundTint="@color/greyLight" />
 
-    </androidx.drawerlayout.widget.DrawerLayout>
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="32dp"
+                        android:onClick="@{(view)->godViewModel.logout(view)}"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/nav_logout_logo"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:tint="@color/white"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:srcCompat="@drawable/ic_exit_black_24dp" />
+
+                        <TextView
+                            android:id="@+id/logout"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:text="@string/menu_logout"
+                            android:textColor="@color/white"
+                            app:layout_constraintBottom_toBottomOf="@id/nav_logout_logo"
+                            app:layout_constraintStart_toEndOf="@+id/nav_logout_logo"
+                            app:layout_constraintTop_toTopOf="@id/nav_logout_logo" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </LinearLayout>
+            </com.google.android.material.navigation.NavigationView>
+
+        </androidx.drawerlayout.widget.DrawerLayout>
+
+        <ProgressBar
+            android:id="@+id/progressbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

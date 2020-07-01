@@ -47,4 +47,9 @@
     <string name="label_continue">Continue</string>
     <string name="back_to_login"><![CDATA[< Back to login]]></string>
     <string name="menu_logout">Logout</string>
+    <string name="menu_edit_my_profile">Edit My Profile</string>
+    <string name="menu_view_history">View History</string>
+    <string name="menu_pool">Pool</string>
+    <string name="menu_send">Send</string>
+    <string name="menu_contacts">Contacts</string>
 </resources>

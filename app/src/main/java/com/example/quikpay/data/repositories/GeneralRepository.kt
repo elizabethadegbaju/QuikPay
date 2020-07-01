@@ -7,4 +7,12 @@ class GeneralRepository(
 ) {
     fun reportIssue(message: String, strDate: String, timezone: String) =
         firebase.reportIssue(message, strDate, timezone)
+
+    fun logout() = firebase.logout()
+
+    fun currentUserDetails() = firebase.userDetails
+
+    fun currentUser() = firebase.currentUser()
+
+    fun fetchUserDetails() = firebase.fetchUserDetails()
 }

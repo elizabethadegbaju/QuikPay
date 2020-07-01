@@ -9,11 +9,11 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.example.quikpay.ProgressListener
 import com.example.quikpay.R
 import com.example.quikpay.databinding.FragmentLoginBinding
 import com.example.quikpay.ui.authentication.AuthViewModel
 import com.example.quikpay.ui.authentication.AuthViewModelFactory
-import com.example.quikpay.ui.authentication.ProgressListener
 import com.example.quikpay.utils.startHomeActivity
 import kotlinx.android.synthetic.main.fragment_login.*
 import org.kodein.di.KodeinAware

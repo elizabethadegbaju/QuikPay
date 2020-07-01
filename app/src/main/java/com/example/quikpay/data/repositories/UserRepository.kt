@@ -18,6 +18,5 @@ class UserRepository(
     fun saveUserDetails(name: String, phoneNo: String) =
         firebase.saveUserDetails(name, phoneNo)
 
-    fun logout() = firebase.logout()
     fun uploadFile(filePath: Uri, phoneNo: String) = firebase.uploadFile(filePath, phoneNo)
 }

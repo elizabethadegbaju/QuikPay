@@ -7,16 +7,17 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.example.quikpay.ProgressListener
 import com.example.quikpay.R
 import com.example.quikpay.databinding.ActivityReportIssueBinding
-import com.example.quikpay.ui.authentication.ProgressListener
 import com.example.quikpay.utils.startHomeActivity
 import kotlinx.android.synthetic.main.activity_report_issue.*
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.kodein
 import org.kodein.di.generic.instance
 
-class ReportIssueActivity : AppCompatActivity(), ProgressListener, KodeinAware {
+class ReportIssueActivity : AppCompatActivity(),
+    ProgressListener, KodeinAware {
     override val kodein by kodein()
     private val factory: ReportIssueViewModelFactory by instance()
     private lateinit var viewModel: ReportIssueViewModel
