@@ -8,5 +8,6 @@
     <color name="colorPrimaryDark">#ff000000</color>
     <color name="white">#ffffffff</color>
     <color name="black">#ff000000</color>
+    <color name="grey">#707070</color>
     <color name="offwhite">#ffe2e2e2</color>
 </resources>

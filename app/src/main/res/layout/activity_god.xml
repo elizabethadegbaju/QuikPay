@@ -43,6 +43,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
+                    android:onClick="@{()->godViewModel.reportAnIssue()}"
                     android:text="Report an issue" />
 
                 <View
@@ -56,8 +57,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="32dp"
-                    android:orientation="horizontal"
-                    android:onClick="@{()->godViewModel.logout()}">
+                    android:onClick="@{()->godViewModel.logout()}"
+                    android:orientation="horizontal">
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/nav_logout_logo"

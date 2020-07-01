@@ -19,6 +19,9 @@ class AuthViewModel(
     private val repository: UserRepository
 ) : ViewModel() {
 
+    var progressListener: ProgressListener? = null
+    private val disposables = CompositeDisposable()
+
     private var _email = MutableLiveData<String>()
     val email: LiveData<String>
         get() = _email
@@ -59,10 +62,6 @@ class AuthViewModel(
     val startSignup: LiveData<Boolean>
         get() = _startSignup
 
-    var authListener: AuthListener? = null
-
-    private val disposables = CompositeDisposable()
-
     val user by lazy {
         repository.currentUser()
     }
@@ -74,15 +73,15 @@ class AuthViewModel(
 //            return
 //        }
 
-        authListener?.onStarted()
+        progressListener?.onStarted()
 
         val disposable = repository.login(email.value!!, password.value!!)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-                authListener?.onSuccess()
+                progressListener?.onSuccess()
             }, {
-                authListener?.onFailure(it.message!!)
+                progressListener?.onFailure(it.message!!)
             })
         disposables.add(disposable)
         _startLogin.value = false
@@ -94,7 +93,7 @@ class AuthViewModel(
 
     fun signup() {
         _startSignup.value = false
-        authListener?.onStarted()
+        progressListener?.onStarted()
         val disposable = repository.register(email.value!!, password.value!!)
             .andThen(repository.login(email.value!!, password.value!!))
             .andThen(repository.uploadFile(filePath.value!!, phoneNo.value!!))
@@ -102,9 +101,9 @@ class AuthViewModel(
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-                authListener?.onSuccess()
+                progressListener?.onSuccess()
             }, {
-                authListener?.onFailure(it.message!!)
+                progressListener?.onFailure(it.message!!)
             })
         disposables.add(disposable)
     }

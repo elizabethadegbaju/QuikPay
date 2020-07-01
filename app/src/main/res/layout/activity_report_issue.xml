@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="reportIssueViewModel"
+            type="com.example.quikpay.ui.reportissue.ReportIssueViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimary"
+        tools:context=".ui.reportissue.ReportIssueActivity">
+
+        <ImageView
+            android:id="@+id/image_report_issue"
+            android:layout_width="wrap_content"
+            android:layout_height="134dp"
+            android:layout_marginTop="55dp"
+            android:layout_marginBottom="402dp"
+            android:src="@drawable/group_23"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/instruction_report_issue"
+            android:layout_width="266dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="39dp"
+            android:text="Observed any issues? Fill out this report and quikpay will work on it"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="@id/image_report_issue"
+            app:layout_constraintStart_toStartOf="@id/image_report_issue"
+            app:layout_constraintTop_toBottomOf="@id/image_report_issue" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/edit_text_issue"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="42dp"
+            android:hint="Enter report here"
+            android:textColorHint="@color/offwhite"
+            app:boxBackgroundColor="@color/colorPrimary"
+            app:boxStrokeColor="@drawable/edit_text_state_colors"
+            app:hintTextColor="@color/colorAccent"
+            app:layout_constraintEnd_toEndOf="@id/image_report_issue"
+            app:layout_constraintStart_toStartOf="@id/image_report_issue"
+            app:layout_constraintTop_toBottomOf="@id/instruction_report_issue">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/issue"
+                android:layout_width="286dp"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                android:inputType="textMultiLine"
+                android:lines="3"
+                android:textColor="@color/offwhite"
+                android:textSize="15dp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="300dp"
+            android:layout_height="42dp"
+            android:layout_marginTop="48dp"
+            android:onClick="@{()->reportIssueViewModel.submit()}"
+            android:text="Send Report"
+            app:layout_constraintEnd_toEndOf="@id/image_report_issue"
+            app:layout_constraintStart_toStartOf="@id/image_report_issue"
+            app:layout_constraintTop_toBottomOf="@id/edit_text_issue" />
+
+        <ProgressBar
+            android:id="@+id/progressbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

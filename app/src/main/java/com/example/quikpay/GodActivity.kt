@@ -1,5 +1,6 @@
 package com.example.quikpay
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
@@ -14,6 +15,7 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.quikpay.databinding.ActivityGodBinding
+import com.example.quikpay.ui.reportissue.ReportIssueActivity
 import com.example.quikpay.utils.startLoginActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
@@ -37,10 +39,17 @@ class GodActivity : AppCompatActivity(), KodeinAware {
         viewModel = ViewModelProvider(this, factory).get(GodViewModel::class.java)
         binding.godViewModel = viewModel
         binding.lifecycleOwner = this
+
         viewModel.navigateToLogin.observe(this, Observer {
             if (it == true) {
                 this.startLoginActivity()
                 viewModel.onNavigateToLogin()
+            }
+        })
+        viewModel.navigateToReportIssue.observe(this, Observer {
+            if (it == true) {
+                startActivity(Intent(this, ReportIssueActivity::class.java))
+                viewModel.onNavigateToReportIssue()
             }
         })
 

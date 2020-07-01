@@ -11,9 +11,9 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.quikpay.R
 import com.example.quikpay.databinding.FragmentSignupTwoBinding
-import com.example.quikpay.ui.authentication.AuthListener
 import com.example.quikpay.ui.authentication.AuthViewModel
 import com.example.quikpay.ui.authentication.AuthViewModelFactory
+import com.example.quikpay.ui.authentication.ProgressListener
 import com.example.quikpay.utils.startHomeActivity
 import kotlinx.android.synthetic.main.fragment_signup_two.*
 import org.kodein.di.KodeinAware
@@ -21,7 +21,7 @@ import org.kodein.di.android.x.kodein
 import org.kodein.di.generic.instance
 
 
-class SignupTwoFragment : Fragment(), AuthListener, KodeinAware {
+class SignupTwoFragment : Fragment(), ProgressListener, KodeinAware {
     override val kodein by kodein()
     private val factory: AuthViewModelFactory by instance()
     private lateinit var viewModel: AuthViewModel
@@ -35,7 +35,7 @@ class SignupTwoFragment : Fragment(), AuthListener, KodeinAware {
         viewModel = ViewModelProvider(requireActivity(), factory).get(AuthViewModel::class.java)
         binding.authViewModel = viewModel
         binding.lifecycleOwner = this
-        viewModel.authListener = this
+        viewModel.progressListener = this
 
         viewModel.startSignup.observe(requireActivity(), Observer {
             if (it == true) {

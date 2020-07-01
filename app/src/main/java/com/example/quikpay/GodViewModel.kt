@@ -13,9 +13,21 @@ class GodViewModel(
     val navigateToLogin: LiveData<Boolean>
         get() = _navigateToLogin
 
+    private var _navigateToReportIssue = MutableLiveData<Boolean>()
+    val navigateToReportIssue: LiveData<Boolean>
+        get() = _navigateToReportIssue
+
     fun logout() {
         userRepository.logout()
         _navigateToLogin.value = true
+    }
+
+    fun reportAnIssue() {
+        _navigateToReportIssue.value = true
+    }
+
+    fun onNavigateToReportIssue() {
+        _navigateToReportIssue.value = false
     }
 
     fun onNavigateToLogin() {

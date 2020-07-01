@@ -1,6 +1,7 @@
 package com.example.quikpay.data.repositories.firebase
 
 import android.net.Uri
+import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
@@ -68,6 +69,31 @@ class FirebaseSource {
                             emitter.onComplete()
                         else
                             emitter.onError(it.exception!!)
+                    }
+                }
+        }
+
+    fun reportIssue(message: String, date: String, timezone: String) =
+        Completable.create { emitter ->
+            Log.d("ReportIssueFirebase", "starting the process")
+            val issue = hashMapOf(
+                "message" to message,
+                "user" to currentUser()!!.email,
+                "date" to date,
+                "tz" to timezone
+            )
+            Log.d("ReportIssueFirebase", "created the issue item")
+            db.collection("complaints")
+                .add(issue)
+                .addOnCompleteListener {
+                    if (!emitter.isDisposed) {
+                        if (it.isSuccessful) {
+                            Log.d("ReportIssueFirebase", "successfully submitted the issue")
+                            emitter.onComplete()
+                        } else {
+                            Log.d("ReportIssueFirebase", it.exception?.message!!)
+                            emitter.onError(it.exception!!)
+                        }
                     }
                 }
         }
