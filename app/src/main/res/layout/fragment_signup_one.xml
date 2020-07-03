@@ -28,7 +28,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageView5"
-            app:startIconDrawable="@drawable/ic_person_outline_white_24dp"
+            app:startIconDrawable="@drawable/ic_outline_person_24"
             app:startIconTint="@color/white">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -54,7 +54,7 @@
             app:layout_constraintEnd_toEndOf="@id/edit_text_full_name"
             app:layout_constraintStart_toStartOf="@id/edit_text_full_name"
             app:layout_constraintTop_toBottomOf="@id/edit_text_full_name"
-            app:startIconDrawable="@drawable/ic_phone_black_24dp"
+            app:startIconDrawable="@drawable/ic_outline_phone_24"
             app:startIconTint="@color/white">
 
             <com.google.android.material.textfield.TextInputEditText

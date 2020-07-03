@@ -77,7 +77,7 @@
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
-                            app:srcCompat="@drawable/ic_exit_black_24dp" />
+                            app:srcCompat="@drawable/ic_round_exit_to_app_24" />
 
                         <TextView
                             android:id="@+id/logout"

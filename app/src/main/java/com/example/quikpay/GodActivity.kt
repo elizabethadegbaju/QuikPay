@@ -52,7 +52,7 @@ class GodActivity : AppCompatActivity(), ProgressListener, KodeinAware {
             if (it != null) {
                 Glide.with(this)
                     .load(viewModel.userDetails.value?.photoURL)
-                    .apply(RequestOptions().placeholder(R.drawable.ic_person_white_24dp))
+                    .apply(RequestOptions().placeholder(R.drawable.ic_round_person_24))
                     .into(headerBinding.profilePicture)
                 headerBinding.displayName.text = viewModel.userDetails.value!!.name
                 headerBinding.profilePicture.setBackgroundResource(R.drawable.round_outline)
