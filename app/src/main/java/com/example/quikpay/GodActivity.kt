@@ -56,6 +56,7 @@ class GodActivity : AppCompatActivity(), ProgressListener, KodeinAware {
                     .load(viewModel.userDetails.value?.photoURL)
                     .apply(RequestOptions().placeholder(R.drawable.ic_round_person_24))
                     .into(headerBinding.profilePicture)
+                headerBinding.profilePicture.clipToOutline = true
                 headerBinding.displayName.text = viewModel.userDetails.value!!.name
                 headerBinding.profilePicture.setBackgroundResource(R.drawable.round_outline)
             }

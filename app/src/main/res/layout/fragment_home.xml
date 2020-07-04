@@ -9,6 +9,10 @@
             name="homeViewModel"
             type="com.example.quikpay.ui.home.HomeViewModel" />
 
+        <variable
+            name="godViewModel"
+            type="com.example.quikpay.GodViewModel" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -16,18 +20,198 @@
         android:layout_height="match_parent"
         tools:context=".ui.home.HomeFragment">
 
+        <ImageView
+            android:id="@+id/imageView9"
+            android:layout_width="match_parent"
+            android:layout_height="310dp"
+            android:tint="@color/colorPrimary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/rectangle_rounded_bottom_corners" />
+
+        <ImageView
+            android:id="@+id/image_user"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="34dp"
+            android:layout_marginTop="35dp"
+            android:background="@drawable/round_outline"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:srcCompat="@tools:sample/avatars" />
+
         <TextView
-            android:id="@+id/text_home"
+            android:id="@+id/text_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="@{godViewModel.userDetails.name}"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="@+id/image_user"
+            app:layout_constraintStart_toEndOf="@+id/image_user"
+            app:layout_constraintTop_toTopOf="@+id/image_user"
+            tools:text="Jerry Adams" />
+
+
+        <ImageView
+            android:id="@+id/imageView11"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="38dp"
+            android:background="@drawable/round_outline"
+            android:backgroundTint="@color/colorPrimary"
+            android:outlineAmbientShadowColor="@color/colorPrimaryLight"
+            android:paddingStart="10dp"
+            android:paddingTop="7dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="10dp"
+            android:tint="@color/white"
+            app:layout_constraintBottom_toBottomOf="@+id/text_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/text_name"
+            app:srcCompat="@drawable/ic_round_notifications_24" />
+
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tab_layout_home"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:textAlignment="center"
-            android:textSize="20sp"
+            android:layout_marginTop="1dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView9">
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tab_all" />
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tab_received" />
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tab_sent" />
+        </com.google.android.material.tabs.TabLayout>
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/view_pager_home"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/tab_layout_home" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="My Wallet"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toStartOf="@+id/image_user"
+            app:layout_constraintTop_toBottomOf="@+id/image_user" />
+
+        <ImageView
+            android:id="@+id/imageView10"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="10dp"
+            android:tint="@color/colorPrimaryLight"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView9"
+            app:layout_constraintEnd_toEndOf="@+id/imageView11"
+            app:layout_constraintStart_toStartOf="@+id/textView2"
+            app:layout_constraintTop_toBottomOf="@+id/textView2"
+            app:srcCompat="@drawable/rectangle_rounded_corners" />
+
+        <ImageView
+            android:id="@+id/imageView12"
+            android:layout_width="80dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="14dp"
+            app:layout_constraintStart_toStartOf="@+id/imageView10"
+            app:layout_constraintTop_toTopOf="@+id/imageView10"
+            app:srcCompat="@drawable/component_3__11" />
+
+        <TextView
+            android:id="@+id/textView11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="14dp"
+            android:text="Account Number"
+            android:textColor="@color/grey"
+            android:textSize="13sp"
+            app:layout_constraintEnd_toEndOf="@+id/imageView10"
+            app:layout_constraintTop_toTopOf="@+id/imageView10" />
+
+        <TextView
+            android:id="@+id/textView12"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:text="276 364 859 1"
+            android:textColor="@color/colorAccent"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/textView11"
+            app:layout_constraintTop_toBottomOf="@+id/textView11" />
+
+        <TextView
+            android:id="@+id/textView13"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="3dp"
+            android:text="@string/balance"
+            android:textColor="@color/grey"
+            android:textSize="13sp"
+            app:layout_constraintBottom_toTopOf="@+id/text_balance"
+            app:layout_constraintStart_toStartOf="@+id/imageView12" />
+
+        <TextView
+            android:id="@+id/text_balance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="11dp"
+            android:text="$ 12,420."
+            android:textColor="@color/colorAccent"
+            android:textSize="23sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView10"
+            app:layout_constraintStart_toStartOf="@+id/textView13" />
+
+        <TextView
+            android:id="@+id/textView15"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="1dp"
+            android:text="90"
+            android:textColor="@color/colorAccent"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/text_balance"
+            app:layout_constraintStart_toEndOf="@+id/text_balance" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorPrimaryLight"
+            android:text="@string/top_up"
+            android:textColor="@color/colorAccent"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="@+id/text_balance"
+            app:layout_constraintEnd_toEndOf="@+id/textView12"
+            app:layout_constraintTop_toTopOf="@+id/text_balance"
+            app:strokeColor="@color/colorAccent"
+            app:strokeWidth="1dp" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

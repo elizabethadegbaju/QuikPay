@@ -8,14 +8,16 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.viewpager2.widget.ViewPager2
 import com.example.quikpay.R
 import com.example.quikpay.databinding.FragmentHomeBinding
 
+private const val ARG_OBJECT = "object"
 
 class HomeFragment : Fragment() {
-
+    private lateinit var viewPager: ViewPager2
     private lateinit var homeViewModel: HomeViewModel
-    private lateinit var binding: FragmentHomeBinding
+    lateinit var binding: FragmentHomeBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -24,10 +26,17 @@ class HomeFragment : Fragment() {
     ): View? {
         homeViewModel =
             ViewModelProvider(this).get(HomeViewModel::class.java)
+        requireActivity().actionBar?.hide()
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
         homeViewModel.text.observe(viewLifecycleOwner, Observer {
-            binding.textHome.text = it
         })
+        viewPager = binding.viewPagerHome
+        val tabLayout = binding.tabLayoutHome
+        binding.imageUser.clipToOutline = true
         return binding.root
     }
 }
+
+
+
+
