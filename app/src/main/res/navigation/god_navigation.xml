@@ -5,6 +5,7 @@
     android:id="@+id/drawer_navigation"
     app:startDestination="@+id/nav_home">
 
+    <!--    Drawer Navigation -->
     <fragment
         android:id="@+id/nav_home"
         android:name="com.example.quikpay.ui.home.HomeFragment"
@@ -12,18 +13,11 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/nav_gallery"
-        android:name="com.example.quikpay.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
-
-    <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="com.example.quikpay.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
-    <fragment
         android:id="@+id/nav_edit_profile"
         android:name="com.example.quikpay.ui.editprofile.EditProfileFragment"
         android:label="@string/menu_edit_my_profile" />
+
+    <!--    Bottom Navigation-->
+
+
 </navigation>

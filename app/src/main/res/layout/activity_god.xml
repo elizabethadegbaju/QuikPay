@@ -11,10 +11,17 @@
 
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true">
+
+        <ProgressBar
+            android:id="@+id/progressbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone" />
 
         <androidx.drawerlayout.widget.DrawerLayout
             android:id="@+id/drawer_layout"
@@ -23,6 +30,7 @@
             tools:openDrawer="start">
 
             <include
+                android:id="@+id/app_bar_god"
                 layout="@layout/app_bar_god"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
@@ -90,20 +98,12 @@
                             app:layout_constraintStart_toEndOf="@+id/nav_logout_logo"
                             app:layout_constraintTop_toTopOf="@id/nav_logout_logo" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
-
                 </LinearLayout>
+
             </com.google.android.material.navigation.NavigationView>
 
         </androidx.drawerlayout.widget.DrawerLayout>
 
-        <ProgressBar
-            android:id="@+id/progressbar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
 </layout>

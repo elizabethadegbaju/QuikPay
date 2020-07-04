@@ -21,9 +21,11 @@ import com.bumptech.glide.request.RequestOptions
 import com.example.quikpay.databinding.ActivityGodBinding
 import com.example.quikpay.databinding.NavHeaderGodBinding
 import com.example.quikpay.ui.reportissue.ReportIssueActivity
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_god.*
 import kotlinx.android.synthetic.main.app_bar_god.view.*
+import kotlinx.android.synthetic.main.god_bottom_nav_view.view.*
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.kodein
 import org.kodein.di.generic.instance
@@ -70,16 +72,19 @@ class GodActivity : AppCompatActivity(), ProgressListener, KodeinAware {
 
         val drawerLayout: DrawerLayout = binding.drawerLayout
         val navView: NavigationView = binding.navView
+        val bottomNavView: BottomNavigationView = binding.appBarGod.bottom_nav_view
         val navController = findNavController(R.id.nav_host_fragment)
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
+
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow, R.id.nav_edit_profile
+                R.id.nav_home, R.id.nav_edit_profile
             ), drawerLayout
         )
+
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+//        bottomNavView.setupWithNavController(navController)
+//        bottomNavView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -92,6 +97,26 @@ class GodActivity : AppCompatActivity(), ProgressListener, KodeinAware {
         val navController = findNavController(R.id.nav_host_fragment)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
+
+    private val onNavigationItemSelectedListener =
+        BottomNavigationView.OnNavigationItemSelectedListener { item ->
+            item.isChecked = true
+            when (item.itemId) {
+                R.id.nav_home -> {
+                    TODO()
+                }
+                R.id.nav_pool -> {
+                    TODO()
+                }
+                R.id.nav_send -> {
+                    TODO()
+                }
+                R.id.nav_contacts -> {
+                    TODO()
+                }
+            }
+            false
+        }
 
     override fun onStarted() {
         progressbar.visibility = View.VISIBLE

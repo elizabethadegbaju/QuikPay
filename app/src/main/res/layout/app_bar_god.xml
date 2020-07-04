@@ -24,4 +24,9 @@
 
     <include layout="@layout/content_god" />
 
+    <include
+        layout="@layout/god_bottom_nav_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
