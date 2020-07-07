@@ -6,7 +6,6 @@ import android.view.Menu
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
@@ -25,7 +24,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_god.*
 import kotlinx.android.synthetic.main.app_bar_god.view.*
-import kotlinx.android.synthetic.main.god_bottom_nav_view.view.*
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.kodein
 import org.kodein.di.generic.instance
@@ -68,12 +66,11 @@ class GodActivity : AppCompatActivity(), ProgressListener, KodeinAware {
             }
         })
 
-        val toolbar: Toolbar = binding.root.toolbar
+        val toolbar = binding.root.toolbar
         setSupportActionBar(toolbar)
 
         val drawerLayout: DrawerLayout = binding.drawerLayout
         val navView: NavigationView = binding.navView
-        val bottomNavView: BottomNavigationView = binding.appBarGod.bottom_nav_view
         val navController = findNavController(R.id.nav_host_fragment)
 
         appBarConfiguration = AppBarConfiguration(

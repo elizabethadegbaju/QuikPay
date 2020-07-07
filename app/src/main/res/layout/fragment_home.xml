@@ -9,10 +9,6 @@
             name="homeViewModel"
             type="com.example.quikpay.ui.home.HomeViewModel" />
 
-        <variable
-            name="godViewModel"
-            type="com.example.quikpay.GodViewModel" />
-
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -46,7 +42,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:text="@{godViewModel.userDetails.name}"
             android:textColor="@color/white"
             android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="@+id/image_user"
@@ -99,7 +94,7 @@
                 android:text="@string/tab_sent" />
         </com.google.android.material.tabs.TabLayout>
 
-        <androidx.viewpager2.widget.ViewPager2
+        <androidx.viewpager.widget.ViewPager
             android:id="@+id/view_pager_home"
             android:layout_width="0dp"
             android:layout_height="0dp"

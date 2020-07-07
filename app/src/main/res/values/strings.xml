@@ -58,4 +58,6 @@
     <string name="balance">Balance</string>
     <string name="top_up">Top up</string>
     <string name="sample_name_female">Jane Peterson</string>
+    <string name="var_reference_no">Ref. No: %1$s</string>
+    <string name="var_amount_whole">$ %1$s.</string>
 </resources>

@@ -3,11 +3,75 @@ package com.example.quikpay.ui.home
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.quikpay.data.models.Transaction
+import com.example.quikpay.data.models.User
+import com.example.quikpay.data.repositories.TransactionRepository
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 
-class HomeViewModel : ViewModel() {
+class HomeViewModel(private val transactionRepository: TransactionRepository) : ViewModel() {
+    private val disposables = CompositeDisposable()
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is home Fragment"
+    private var _userDetails = MutableLiveData<User>(User())
+    val userDetails: LiveData<User>
+        get() = _userDetails
+
+    private var _allTransactions = MutableLiveData<List<Transaction>>()
+    val allTransactions: LiveData<List<Transaction>>
+        get() = _allTransactions
+
+    private var _sentTransactions = MutableLiveData<MutableList<Transaction>>()
+    val sentTransactions: LiveData<MutableList<Transaction>>
+        get() = _sentTransactions
+
+    private var _receivedTransactions = MutableLiveData<MutableList<Transaction>>()
+    val receivedTransactions: LiveData<MutableList<Transaction>>
+        get() = _receivedTransactions
+
+
+    fun fetchUserDetails() {
+        val disposable = transactionRepository.fetchUserDetails()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+                _userDetails.value = transactionRepository.currentUserDetails()
+            }
+        disposables.add(disposable)
     }
-    val text: LiveData<String> = _text
+
+    fun updateAllTransactions() {
+        updateReceivedTransactions()
+        updateSentTransactions()
+        if (sentTransactions.value == null || receivedTransactions.value == null) {
+            if (receivedTransactions.value != null) {
+                _allTransactions.value = receivedTransactions.value
+            } else if (sentTransactions.value != null) {
+                _allTransactions.value = sentTransactions.value
+            }
+        } else {
+            _allTransactions.value =
+                _sentTransactions.value!!.plus(_receivedTransactions.value!!).distinct()
+        }
+    }
+
+    fun updateReceivedTransactions() {
+        val disposable = transactionRepository.updateReceivedHistory()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+                _receivedTransactions.value = transactionRepository.receivedHistory()
+            }
+        disposables.add(disposable)
+    }
+
+    fun updateSentTransactions() {
+        val disposable = transactionRepository.updateSentHistory()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+                _sentTransactions.value = transactionRepository.sentHistory()
+            }
+        disposables.add(disposable)
+    }
 }
