@@ -29,6 +29,17 @@ class HomeViewModel(private val transactionRepository: TransactionRepository) : 
     val receivedTransactions: LiveData<MutableList<Transaction>>
         get() = _receivedTransactions
 
+    private var _showNavDrawer = MutableLiveData<Boolean>()
+    val showNavDrawer: LiveData<Boolean>
+        get() = _showNavDrawer
+
+    fun showDrawer() {
+        _showNavDrawer.value = true
+    }
+
+    fun doneShowNavDrawer() {
+        _showNavDrawer.value = false
+    }
 
     fun fetchUserDetails() {
         val disposable = transactionRepository.fetchUserDetails()

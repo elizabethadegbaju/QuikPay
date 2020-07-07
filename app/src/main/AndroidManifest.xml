@@ -15,28 +15,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:screenOrientation="portrait"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme.NoActionBar">
         <activity android:name=".ui.reportissue.ReportIssueActivity" />
         <activity android:name=".ui.EditProfileActivity" />
-        <activity
-            android:name=".ui.authentication.forgotpassword.ForgotPasswordActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".ui.authentication.signup.SignupActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".ui.authentication.login.LoginActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".ui.authentication.forgotpassword.ForgotPasswordActivity" />
+        <activity android:name=".ui.authentication.signup.SignupActivity" />
+        <activity android:name=".ui.authentication.login.LoginActivity" />
         <activity
             android:name=".GodActivity"
-            android:label="@string/title_activity_god"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".ui.welcome.WelcomeActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".SplashActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:label="@string/title_activity_god" />
+        <activity android:name=".ui.welcome.WelcomeActivity" />
+        <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

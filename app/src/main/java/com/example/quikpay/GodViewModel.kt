@@ -26,6 +26,18 @@ class GodViewModel(
     val navigateToReportIssue: LiveData<Boolean>
         get() = _navigateToReportIssue
 
+    private var _hideNavDrawer = MutableLiveData<Boolean>()
+    val hideNavDrawer: LiveData<Boolean>
+        get() = _hideNavDrawer
+
+    fun hideDrawer() {
+        _hideNavDrawer.value = true
+    }
+
+    fun doneHideNavDrawer() {
+        _hideNavDrawer.value = false
+    }
+
     fun logout(view: View) {
         generalRepository.logout()
         view.context.startLoginActivity()

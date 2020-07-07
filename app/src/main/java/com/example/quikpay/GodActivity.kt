@@ -2,6 +2,7 @@ package com.example.quikpay
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.Gravity
 import android.view.Menu
 import android.view.View
 import android.widget.Toast
@@ -63,6 +64,12 @@ class GodActivity : AppCompatActivity(), ProgressListener, KodeinAware {
             if (it == true) {
                 startActivity(Intent(this, ReportIssueActivity::class.java))
                 viewModel.onNavigateToReportIssue()
+            }
+        })
+        viewModel.hideNavDrawer.observe(this, Observer {
+            if (it == true) {
+                binding.drawerLayout.closeDrawer(Gravity.LEFT)
+                viewModel.doneHideNavDrawer()
             }
         })
 
