@@ -60,4 +60,5 @@
     <string name="sample_name_female">Jane Peterson</string>
     <string name="var_reference_no">Ref. No: %1$s</string>
     <string name="var_amount_whole">$ %1$s.</string>
+    <string name="view_older">View Older</string>
 </resources>

@@ -33,6 +33,22 @@ class HomeViewModel(private val transactionRepository: TransactionRepository) : 
     val showNavDrawer: LiveData<Boolean>
         get() = _showNavDrawer
 
+    private var _navigateToViewOlder = MutableLiveData<Boolean>()
+    val navigateToViewOlder: LiveData<Boolean>
+        get() = _navigateToViewOlder
+
+    private var _currentTab = MutableLiveData<String>()
+    val currentTab: LiveData<String>
+        get() = _currentTab
+
+    fun navigateToViewOlder() {
+        _navigateToViewOlder.value = true
+    }
+
+    fun onNavigateToViewOlder() {
+        _navigateToViewOlder.value = false
+    }
+
     fun showDrawer() {
         _showNavDrawer.value = true
     }
@@ -84,5 +100,9 @@ class HomeViewModel(private val transactionRepository: TransactionRepository) : 
                 _sentTransactions.value = transactionRepository.sentHistory()
             }
         disposables.add(disposable)
+    }
+
+    fun setCurrentTab(tab: String) {
+        _currentTab.value = tab
     }
 }

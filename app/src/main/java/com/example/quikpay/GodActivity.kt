@@ -2,11 +2,11 @@ package com.example.quikpay
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.Gravity
 import android.view.Menu
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
@@ -68,7 +68,7 @@ class GodActivity : AppCompatActivity(), ProgressListener, KodeinAware {
         })
         viewModel.hideNavDrawer.observe(this, Observer {
             if (it == true) {
-                binding.drawerLayout.closeDrawer(Gravity.LEFT)
+                binding.drawerLayout.closeDrawer(GravityCompat.START)
                 viewModel.doneHideNavDrawer()
             }
         })
@@ -82,7 +82,7 @@ class GodActivity : AppCompatActivity(), ProgressListener, KodeinAware {
 
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.nav_home, R.id.nav_edit_profile
+                R.id.nav_history, R.id.nav_edit_profile
             ), drawerLayout
         )
 
@@ -107,7 +107,7 @@ class GodActivity : AppCompatActivity(), ProgressListener, KodeinAware {
         BottomNavigationView.OnNavigationItemSelectedListener { item ->
             item.isChecked = true
             when (item.itemId) {
-                R.id.nav_home -> {
+                R.id.nav_history -> {
                     TODO()
                 }
                 R.id.nav_pool -> {

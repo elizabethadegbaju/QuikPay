@@ -1,9 +1,8 @@
-package com.example.quikpay.utils
+package com.example.quikpay.ui.home
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import com.example.quikpay.ui.home.TransactionFragment
 
 
 class ViewPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(
