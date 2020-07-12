@@ -61,4 +61,7 @@
     <string name="var_reference_no">Ref. No: %1$s</string>
     <string name="var_amount_whole">$ %1$s.</string>
     <string name="view_older">View Older</string>
+    <string name="tab_request">Request</string>
+    <string name="tab_pending">Pending</string>
+    <string name="tab_open_pools">Open Pools</string>
 </resources>

@@ -2,12 +2,14 @@ package com.example.quikpay
 
 import android.app.Application
 import com.example.quikpay.data.repositories.GeneralRepository
+import com.example.quikpay.data.repositories.PoolRepository
 import com.example.quikpay.data.repositories.TransactionRepository
 import com.example.quikpay.data.repositories.UserRepository
 import com.example.quikpay.data.repositories.firebase.FirebaseSource
 import com.example.quikpay.ui.authentication.AuthViewModelFactory
 import com.example.quikpay.ui.editprofile.EditProfileViewModelFactory
 import com.example.quikpay.ui.home.HomeViewModelFactory
+import com.example.quikpay.ui.pool.PoolViewModelFactory
 import com.example.quikpay.ui.reportissue.ReportIssueViewModelFactory
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
@@ -35,11 +37,14 @@ class QuikPayApplication : Application(), KodeinAware {
         bind() from singleton { UserRepository(instance()) }
         bind() from singleton { GeneralRepository(instance()) }
         bind() from singleton { TransactionRepository(instance()) }
+        bind() from singleton { PoolRepository(instance()) }
+
         bind() from provider { AuthViewModelFactory(instance()) }
         bind() from provider { GodViewModelFactory(instance()) }
         bind() from provider { EditProfileViewModelFactory(instance()) }
         bind() from provider { ReportIssueViewModelFactory(instance()) }
         bind() from provider { HomeViewModelFactory(instance()) }
+        bind() from provider { PoolViewModelFactory(instance()) }
 
     }
 }

@@ -3,6 +3,7 @@ package com.example.quikpay.data.repositories.firebase
 import android.net.Uri
 import android.util.Log
 import com.example.quikpay.data.models.Complaint
+import com.example.quikpay.data.models.Pool
 import com.example.quikpay.data.models.Transaction
 import com.example.quikpay.data.models.User
 import com.google.firebase.auth.FirebaseAuth
@@ -173,5 +174,26 @@ class FirebaseSource {
                 }
             }
     }
+
+    fun createPool(description: String, participants: List<String>, target: Double) =
+        Completable.create { emitter ->
+            val poolsRef = db.collection("pools/")
+            val pool = Pool(
+                created_by = currentUser()!!.uid,
+                description = description,
+                target = target
+            )
+            poolsRef
+                .add(pool)
+                .addOnCompleteListener {
+                    if (!emitter.isDisposed) {
+                        if (it.isSuccessful) {
+                            emitter.onComplete()
+                        } else {
+                            emitter.onError(it.exception!!)
+                        }
+                    }
+                }
+        }
 
 }

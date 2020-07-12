@@ -25,6 +25,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_god.*
 import kotlinx.android.synthetic.main.app_bar_god.view.*
+import kotlinx.android.synthetic.main.god_bottom_nav_view.view.*
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.kodein
 import org.kodein.di.generic.instance
@@ -78,6 +79,7 @@ class GodActivity : AppCompatActivity(), ProgressListener, KodeinAware {
 
         val drawerLayout: DrawerLayout = binding.drawerLayout
         val navView: NavigationView = binding.navView
+        val bottomNavView = binding.root.bottom_nav_view
         val navController = findNavController(R.id.nav_host_fragment)
 
         appBarConfiguration = AppBarConfiguration(
@@ -88,7 +90,7 @@ class GodActivity : AppCompatActivity(), ProgressListener, KodeinAware {
 
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
-//        bottomNavView.setupWithNavController(navController)
+        bottomNavView.setupWithNavController(navController)
 //        bottomNavView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
     }
 

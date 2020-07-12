@@ -20,7 +20,7 @@ import org.kodein.di.generic.instance
 
 
 /**
- * A fragment representing a list of Items.
+ * A fragment representing a list of transactions.
  */
 class TransactionFragment : Fragment(), KodeinAware {
 

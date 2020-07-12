@@ -30,22 +30,29 @@ class TransactionsViewAdapter(val email: String) :
         fun bind(item: Transaction, email: String) {
             binding.transactionDate.text = item.date
             val amount = item.amount.toString().split('.')
-            binding.transactionAmount.text = Strings.get(
-                R.string.var_amount_whole,
-                String.format("%,d", amount[0].toInt())
-            )
-            binding.transactionAmountDecimal.text = amount[1]
+            val amountWhole = String.format("%,d", amount[0].toInt())
             when (item.type) {
                 "from" -> {
                     binding.transactionType.setImageResource(R.drawable.ic_call_made_24)
                     binding.transactionUser.text = item.other_user
+                    binding.transactionAmount.text = Strings.get(
+                        R.string.var_amount_whole, amountWhole
+                    )
                 }
                 "to" -> {
                     binding.transactionType.setImageResource(R.drawable.ic_call_received_24)
                     binding.transactionUser.text = item.other_user
+                    binding.transactionAmount.text = Strings.get(
+                        R.string.var_amount_whole, amountWhole
+                    )
+//                    binding.transactionAmount.text = Strings.get(
+//                        R.string.var_amount_whole,
+//                        String.format("%,d", amount[0].toInt())
+//                    )
                 }
             }
             binding.transactionRef.text = Strings.get(R.string.var_reference_no, item.ref_number)
+            binding.transactionAmountDecimal.text = amount[1]
         }
 
         companion object {
