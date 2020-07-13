@@ -33,7 +33,16 @@
         android:id="@+id/nav_pool"
         android:name="com.example.quikpay.ui.pool.PoolFragment"
         android:label="Pool"
-        tools:layout="@layout/fragment_pool" />
+        tools:layout="@layout/fragment_pool">
+        <action
+            android:id="@+id/action_nav_pool_to_contactsFragment"
+            app:destination="@id/contactsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/contactsFragment"
+        android:name="com.example.quikpay.ui.contacts.ContactsFragment"
+        android:label="To"
+        tools:layout="@layout/fragment_contacts" />
 
 
 </navigation>

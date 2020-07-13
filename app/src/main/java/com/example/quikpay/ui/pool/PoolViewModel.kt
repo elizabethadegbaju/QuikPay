@@ -33,6 +33,18 @@ class PoolViewModel(private val poolRepository: PoolRepository) : ViewModel() {
     val startCreatePool: LiveData<Boolean>
         get() = _startCreatePool
 
+    private var _navigateToContacts = MutableLiveData<Boolean>()
+    val navigateToContacts: LiveData<Boolean>
+        get() = _navigateToContacts
+
+    fun navigateToContacts() {
+        _navigateToContacts.value = true
+    }
+
+    fun onNavigateToContacts() {
+        _navigateToContacts.value = false
+    }
+
     fun createPool() {
         _startCreatePool.value = false
         progressListener?.onStarted()

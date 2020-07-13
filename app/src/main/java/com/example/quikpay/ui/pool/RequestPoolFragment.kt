@@ -9,6 +9,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
 import com.example.quikpay.ProgressListener
 import com.example.quikpay.R
 import com.example.quikpay.databinding.FragmentRequestPoolBinding
@@ -49,6 +50,14 @@ class RequestPoolFragment : Fragment(), KodeinAware, ProgressListener {
                     binding.textTarget.text.toString()
                 )
                 poolViewModel.createPool()
+            }
+        })
+
+        poolViewModel.navigateToContacts.observe(viewLifecycleOwner, Observer {
+            if (it == true) {
+                Navigation.findNavController(binding.root)
+                    .navigate(PoolFragmentDirections.actionNavPoolToContactsFragment())
+                poolViewModel.onNavigateToContacts()
             }
         })
 
