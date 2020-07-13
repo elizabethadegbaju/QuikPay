@@ -1,6 +1,8 @@
 package com.example.quikpay.ui.contacts
 
+import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -23,18 +25,27 @@ class ContactsViewAdapter() :
     }
 
     class ViewHolder private constructor(val binding: ContactItemBinding) :
-        RecyclerView.ViewHolder(binding.root) {
+        RecyclerView.ViewHolder(binding.root), View.OnClickListener {
 
         fun bind(item: Contact) {
             binding.contactName.text = item.name
+            binding.contactCheckImage.visibility = View.GONE
         }
 
         companion object {
             fun from(parent: ViewGroup): ViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
                 val binding = ContactItemBinding.inflate(layoutInflater, parent, false)
-                return ViewHolder(binding)
+                val viewHolder = ViewHolder(binding)
+                binding.root.setOnClickListener(viewHolder)
+                return viewHolder
             }
+
+            private val TAG = ViewHolder::class.java.simpleName
+        }
+
+        override fun onClick(v: View?) {
+            Log.d(TAG, "Item clicked at position $position");
         }
     }
 
