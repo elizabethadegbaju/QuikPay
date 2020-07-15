@@ -82,8 +82,9 @@ class HomeFragment : Fragment(), KodeinAware {
         viewPager = binding.viewPagerHome
         tabLayout = binding.tabLayoutHome
         viewPagerAdapter =
-            ViewPagerAdapter(requireActivity().supportFragmentManager)
+            ViewPagerAdapter(childFragmentManager)
         viewPager.adapter = viewPagerAdapter
+        viewPager.offscreenPageLimit = 3
         tabLayout.setupWithViewPager(viewPager)
         return binding.root
     }

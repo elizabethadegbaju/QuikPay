@@ -8,13 +8,12 @@ import android.os.AsyncTask
 import android.os.Bundle
 import android.provider.ContactsContract
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.quikpay.R
@@ -23,11 +22,14 @@ import com.example.quikpay.databinding.FragmentContactsBinding
 import com.google.gson.Gson
 
 
-class ContactsFragment : Fragment() {
-    private lateinit var selectUsers: MutableList<Contact>
+class ContactsFragment : Fragment(), ContactsViewAdapter.ViewHolder.ClickListener {
+    private lateinit var contacts: MutableList<Contact>
     private lateinit var recyclerView: RecyclerView
     private lateinit var binding: FragmentContactsBinding
     private lateinit var phones: Cursor
+    private lateinit var contactAdapter: ContactsViewAdapter
+    private val actionModeCallback = ActionModeCallback()
+    private var actionMode: ActionMode? = null
     private val PERMISSIONS_REQUEST_READ_CONTACTS = 100
 
     override fun onCreateView(
@@ -37,7 +39,7 @@ class ContactsFragment : Fragment() {
         recyclerView = binding.list
         binding.lifecycleOwner = this
 
-        selectUsers = mutableListOf()
+        contacts = mutableListOf()
         showContacts()
         return binding.root
     }
@@ -87,8 +89,8 @@ class ContactsFragment : Fragment() {
             super.onPostExecute(result)
             val removed: MutableList<Contact> = ArrayList()
             val contacts: MutableList<Contact> = ArrayList()
-            for (i in selectUsers.indices) {
-                val friend = selectUsers[i]
+            for (i in this@ContactsFragment.contacts.indices) {
+                val friend = this@ContactsFragment.contacts[i]
                 if (friend.name.matches(Regex("\\d+(?:\\.\\d+)?")) || friend.name.trim().isEmpty()
                 ) {
                     removed.add(friend)
@@ -98,12 +100,12 @@ class ContactsFragment : Fragment() {
                 }
             }
             contacts.addAll(removed)
-            selectUsers = contacts
-
+            this@ContactsFragment.contacts = contacts
+            contactAdapter = ContactsViewAdapter(this@ContactsFragment)
             with(recyclerView) {
                 layoutManager = LinearLayoutManager(context)
-                adapter = ContactsViewAdapter()
-                (adapter as ContactsViewAdapter).submitList(selectUsers)
+                adapter = contactAdapter
+                (adapter as ContactsViewAdapter).submitList(this@ContactsFragment.contacts)
             }
         }
 
@@ -119,16 +121,80 @@ class ContactsFragment : Fragment() {
                     phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME))
                 val phoneNumber =
                     phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))
-                val selectUser = Contact()
-                selectUser.name = name
-                selectUser.id = id
+                val contact = Contact()
+                contact.name = name
+                contact.id = id
 //                selectUser.photo = photo
-                selectUser.phone = phoneNumber
-                selectUsers.add(selectUser)
+                contact.phone = phoneNumber
+                contacts.add(contact)
             }
 
             return null
         }
 
+    }
+
+    override fun onItemClicked(position: Int): Boolean {
+        if (actionMode == null) {
+            actionMode = requireActivity().startActionMode(actionModeCallback)
+        }
+
+        toggleSelection(position)
+        return true
+    }
+
+    private fun toggleSelection(position: Int) {
+        contactAdapter.toggleSelection(position)
+        val count: Int = contactAdapter.selectedItemCount
+        if (count == 0) {
+            actionMode!!.finish()
+        } else {
+            actionMode!!.title = count.toString()
+            actionMode!!.invalidate()
+        }
+    }
+
+    private inner class ActionModeCallback : ActionMode.Callback {
+        private val TAG = ActionModeCallback::class.java.simpleName
+        override fun onCreateActionMode(
+            mode: ActionMode,
+            menu: Menu?
+        ): Boolean {
+            mode.menuInflater.inflate(R.menu.selected_menu, menu)
+            return true
+        }
+
+        override fun onPrepareActionMode(
+            mode: ActionMode?,
+            menu: Menu?
+        ): Boolean {
+            return false
+        }
+
+        override fun onActionItemClicked(
+            mode: ActionMode,
+            item: MenuItem
+        ): Boolean {
+            return when (item.itemId) {
+                R.id.menu_remove -> {
+                    contactAdapter.clearSelection()
+                    Log.d(TAG, "menu_remove")
+                    true
+                }
+                R.id.menu_done -> {
+                    mode.finish()
+                    Navigation.findNavController(binding.root)
+                        .navigateUp()
+                    Log.d(TAG, "menu_done")
+                    true
+                }
+                else -> false
+            }
+        }
+
+        override fun onDestroyActionMode(mode: ActionMode) {
+            contactAdapter.clearSelection()
+            actionMode = null
+        }
     }
 }

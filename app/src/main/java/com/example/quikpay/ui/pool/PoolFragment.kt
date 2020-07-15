@@ -30,8 +30,9 @@ class PoolFragment : Fragment(), KodeinAware {
         binding = FragmentPoolBinding.inflate(inflater, container, false)
         viewPager = binding.viewPagerPool
         tabLayout = binding.tabLayoutPool
-        viewPagerAdapter = ViewPagerAdapter(requireActivity().supportFragmentManager)
+        viewPagerAdapter = ViewPagerAdapter(childFragmentManager)
         viewPager.adapter = viewPagerAdapter
+        viewPager.offscreenPageLimit = 3
         tabLayout.setupWithViewPager(viewPager)
 
         return binding.root
