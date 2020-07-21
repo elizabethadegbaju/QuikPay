@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.quikpay.ProgressListener
+import com.example.quikpay.data.models.Contact
 import com.example.quikpay.data.repositories.PoolRepository
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -21,10 +22,6 @@ class PoolViewModel(private val poolRepository: PoolRepository) : ViewModel() {
     val description: LiveData<String>
         get() = _description
 
-    private var _participants = MutableLiveData<List<String>>()
-    val participants: LiveData<List<String>>
-        get() = _participants
-
     private var _target = MutableLiveData<Double>()
     val target: LiveData<Double>
         get() = _target
@@ -36,6 +33,10 @@ class PoolViewModel(private val poolRepository: PoolRepository) : ViewModel() {
     private var _navigateToContacts = MutableLiveData<Boolean>()
     val navigateToContacts: LiveData<Boolean>
         get() = _navigateToContacts
+
+    private var _selectedContacts = MutableLiveData<MutableList<Contact>>()
+    val selectedContacts: LiveData<MutableList<Contact>>
+        get() = _selectedContacts
 
     fun navigateToContacts() {
         _navigateToContacts.value = true
@@ -70,5 +71,13 @@ class PoolViewModel(private val poolRepository: PoolRepository) : ViewModel() {
     fun setValues(description: String, target: String) {
         _description.value = description
         _target.value = target.toDouble()
+    }
+
+    fun selectContacts(selectedContactList: MutableList<Contact>) {
+        _selectedContacts.value = selectedContactList
+    }
+
+    fun removeSelectedContact(contact: Contact) {
+        _selectedContacts.value?.remove(contact)
     }
 }

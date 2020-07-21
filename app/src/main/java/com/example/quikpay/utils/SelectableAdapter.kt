@@ -10,6 +10,7 @@ import com.example.quikpay.data.models.Contact
 abstract class SelectableAdapter<VH : RecyclerView.ViewHolder?> :
     ListAdapter<Contact, VH>(ContactDiffCallback()) {
     private var selectedItems: SparseBooleanArray = SparseBooleanArray()
+    var selectedContactList = mutableListOf<Contact>()
 
     /**
      * Indicates if the item at position position is selected
@@ -24,11 +25,13 @@ abstract class SelectableAdapter<VH : RecyclerView.ViewHolder?> :
      * Toggle the selection status of the item at a given position
      * @param position Position of the item to toggle the selection status for
      */
-    fun toggleSelection(position: Int) {
+    fun toggleSelection(position: Int, contact: Contact) {
         if (selectedItems[position, false]) {
             selectedItems.delete(position)
+            selectedContactList.remove(contact)
         } else {
             selectedItems.put(position, true)
+            selectedContactList.add(contact)
         }
         notifyItemChanged(position)
     }

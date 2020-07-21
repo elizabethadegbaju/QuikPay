@@ -13,16 +13,25 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.quikpay.R
 import com.example.quikpay.data.models.Contact
 import com.example.quikpay.databinding.FragmentContactsBinding
+import com.example.quikpay.ui.pool.PoolViewModel
+import com.example.quikpay.ui.pool.PoolViewModelFactory
 import com.google.gson.Gson
+import org.kodein.di.KodeinAware
+import org.kodein.di.android.x.kodein
+import org.kodein.di.generic.instance
 
 
-class ContactsFragment : Fragment(), ContactsViewAdapter.ViewHolder.ClickListener {
+class ContactsFragment : Fragment(), ContactsViewAdapter.ViewHolder.ClickListener, KodeinAware {
+    override val kodein by kodein()
+    private val factory: PoolViewModelFactory by instance()
+    private lateinit var poolViewModel: PoolViewModel
     private lateinit var contacts: MutableList<Contact>
     private lateinit var recyclerView: RecyclerView
     private lateinit var binding: FragmentContactsBinding
@@ -35,9 +44,10 @@ class ContactsFragment : Fragment(), ContactsViewAdapter.ViewHolder.ClickListene
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
+        poolViewModel = ViewModelProvider(requireActivity(), factory).get(PoolViewModel::class.java)
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_contacts, container, false)
         recyclerView = binding.list
-        binding.lifecycleOwner = this
+        binding.lifecycleOwner = activity
 
         contacts = mutableListOf()
         showContacts()
@@ -134,17 +144,23 @@ class ContactsFragment : Fragment(), ContactsViewAdapter.ViewHolder.ClickListene
 
     }
 
-    override fun onItemClicked(position: Int): Boolean {
+    override fun onItemClicked(
+        position: Int,
+        contact: Contact
+    ): Boolean {
         if (actionMode == null) {
             actionMode = requireActivity().startActionMode(actionModeCallback)
         }
 
-        toggleSelection(position)
+        toggleSelection(position, contact)
         return true
     }
 
-    private fun toggleSelection(position: Int) {
-        contactAdapter.toggleSelection(position)
+    private fun toggleSelection(
+        position: Int,
+        contact: Contact
+    ) {
+        contactAdapter.toggleSelection(position, contact)
         val count: Int = contactAdapter.selectedItemCount
         if (count == 0) {
             actionMode!!.finish()
@@ -183,6 +199,7 @@ class ContactsFragment : Fragment(), ContactsViewAdapter.ViewHolder.ClickListene
                 }
                 R.id.menu_done -> {
                     mode.finish()
+                    poolViewModel.selectContacts(contactAdapter.selectedContactList)
                     Navigation.findNavController(binding.root)
                         .navigateUp()
                     Log.d(TAG, "menu_done")

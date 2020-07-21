@@ -1,4 +1,4 @@
-package com.example.quikpay.ui.contacts
+package com.example.quikpay.ui.pool
 
 import android.util.Log
 import android.view.LayoutInflater
@@ -6,16 +6,22 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.quikpay.data.models.Contact
-import com.example.quikpay.databinding.ContactItemBinding
+import com.example.quikpay.databinding.ContactSelectedItemBinding
 import com.example.quikpay.utils.SelectableAdapter
 
-class ContactsViewAdapter(private var clickListener: ViewHolder.ClickListener) :
-    SelectableAdapter<ContactsViewAdapter.ViewHolder>() {
+class SelectedContactsViewAdapter(clickListener: ViewHolder.ClickListener) :
+    SelectableAdapter<SelectedContactsViewAdapter.ViewHolder>() {
+
+    private var clickListener: ViewHolder.ClickListener
+
+    init {
+        var selectedContacts = mutableListOf<Contact>()
+        this.clickListener = clickListener
+    }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
-        val checkVisibility = if (isSelected(position)) View.VISIBLE else View.INVISIBLE
-        holder.bind(item!!, checkVisibility)
+        holder.bind(item!!)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -23,7 +29,7 @@ class ContactsViewAdapter(private var clickListener: ViewHolder.ClickListener) :
     }
 
     class ViewHolder private constructor(
-        val binding: ContactItemBinding,
+        val binding: ContactSelectedItemBinding,
         listener: ClickListener?
     ) :
         RecyclerView.ViewHolder(binding.root), View.OnClickListener {
@@ -31,10 +37,10 @@ class ContactsViewAdapter(private var clickListener: ViewHolder.ClickListener) :
         private var listener: ClickListener?
         private lateinit var contact: Contact
 
-        fun bind(item: Contact, checkVisibility: Int) {
-            contact = item
+        fun bind(item: Contact) {
             binding.contactName.text = item.name
-            binding.contactCheckImage.visibility = checkVisibility
+            binding.contactAmount.text = "$200"
+            contact = item
         }
 
         override fun onClick(v: View?) {
@@ -43,7 +49,7 @@ class ContactsViewAdapter(private var clickListener: ViewHolder.ClickListener) :
         }
 
         init {
-            binding.root.setOnClickListener(this)
+            binding.contactRemoveImage.setOnClickListener(this)
             this.listener = listener
         }
 
@@ -53,17 +59,14 @@ class ContactsViewAdapter(private var clickListener: ViewHolder.ClickListener) :
                 clickListener: ClickListener?
             ): ViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
-                val binding = ContactItemBinding.inflate(layoutInflater, parent, false)
+                val binding = ContactSelectedItemBinding.inflate(layoutInflater, parent, false)
                 return ViewHolder(binding, clickListener)
             }
 
         }
 
         interface ClickListener {
-            fun onItemClicked(
-                position: Int,
-                contact: Contact
-            ): Boolean
+            fun onItemClicked(position: Int, item: Contact)
         }
     }
 }

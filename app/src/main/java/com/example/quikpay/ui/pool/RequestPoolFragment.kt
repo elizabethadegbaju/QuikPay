@@ -10,8 +10,11 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.quikpay.ProgressListener
 import com.example.quikpay.R
+import com.example.quikpay.data.models.Contact
 import com.example.quikpay.databinding.FragmentRequestPoolBinding
 import com.example.quikpay.utils.startHomeActivity
 import kotlinx.android.synthetic.main.fragment_request_pool.*
@@ -24,11 +27,14 @@ import org.kodein.di.generic.instance
  * Use the [RequestPoolFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class RequestPoolFragment : Fragment(), KodeinAware, ProgressListener {
+class RequestPoolFragment : Fragment(), KodeinAware, ProgressListener,
+    SelectedContactsViewAdapter.ViewHolder.ClickListener {
 
     override val kodein by kodein()
     private val factory: PoolViewModelFactory by instance()
     private lateinit var poolViewModel: PoolViewModel
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var selectedContactAdapter: SelectedContactsViewAdapter
     private lateinit var binding: FragmentRequestPoolBinding
 
     override fun onCreateView(
@@ -36,12 +42,19 @@ class RequestPoolFragment : Fragment(), KodeinAware, ProgressListener {
         savedInstanceState: Bundle?
     ): View? {
 
-        poolViewModel = ViewModelProvider(this, factory).get(PoolViewModel::class.java)
+        poolViewModel = ViewModelProvider(requireActivity(), factory).get(PoolViewModel::class.java)
         poolViewModel.progressListener = this
         binding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_request_pool, container, false)
         binding.poolViewModel = poolViewModel
         binding.lifecycleOwner = activity
+        recyclerView = binding.list
+        selectedContactAdapter = SelectedContactsViewAdapter(this)
+        with(recyclerView) {
+            layoutManager = LinearLayoutManager(context)
+            adapter = selectedContactAdapter
+            (adapter as SelectedContactsViewAdapter).submitList(poolViewModel.selectedContacts.value)
+        }
 
         poolViewModel.startCreatePool.observe(viewLifecycleOwner, Observer {
             if (it == true) {
@@ -88,5 +101,10 @@ class RequestPoolFragment : Fragment(), KodeinAware, ProgressListener {
     override fun onFailure(message: String) {
         progressbar.visibility = View.GONE
         Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onItemClicked(position: Int, item: Contact) {
+        poolViewModel.removeSelectedContact(item)
+        selectedContactAdapter.notifyItemRemoved(position)
     }
 }
