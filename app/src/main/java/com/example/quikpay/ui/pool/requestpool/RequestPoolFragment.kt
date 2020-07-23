@@ -1,4 +1,4 @@
-package com.example.quikpay.ui.pool
+package com.example.quikpay.ui.pool.requestpool
 
 import android.os.Bundle
 import android.util.Log
@@ -17,6 +17,9 @@ import com.example.quikpay.ProgressListener
 import com.example.quikpay.R
 import com.example.quikpay.data.models.Contact
 import com.example.quikpay.databinding.FragmentRequestPoolBinding
+import com.example.quikpay.ui.pool.PoolFragmentDirections
+import com.example.quikpay.ui.pool.PoolViewModel
+import com.example.quikpay.ui.pool.PoolViewModelFactory
 import com.example.quikpay.utils.startHomeActivity
 import kotlinx.android.synthetic.main.fragment_request_pool.*
 import org.kodein.di.KodeinAware
@@ -48,7 +51,10 @@ class RequestPoolFragment : Fragment(), KodeinAware, ProgressListener,
             DataBindingUtil.inflate(inflater, R.layout.fragment_request_pool, container, false)
         binding.poolViewModel = poolViewModel
         binding.lifecycleOwner = activity
-        selectedContactAdapter = SelectedContactsViewAdapter(this)
+        selectedContactAdapter =
+            SelectedContactsViewAdapter(
+                this
+            )
 
         poolViewModel.startCreatePool.observe(viewLifecycleOwner, Observer {
             if (it == true) {
@@ -90,7 +96,8 @@ class RequestPoolFragment : Fragment(), KodeinAware, ProgressListener,
          * @return A new instance of fragment RequestPoolFragment.
          */
         @JvmStatic
-        fun newInstance() = RequestPoolFragment()
+        fun newInstance() =
+            RequestPoolFragment()
     }
 
 

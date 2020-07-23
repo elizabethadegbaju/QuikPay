@@ -15,7 +15,7 @@
         android:id="@+id/constraint_request_pool"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.pool.RequestPoolFragment">
+        tools:context=".ui.pool.requestpool.RequestPoolFragment">
 
         <TextView
             android:id="@+id/textView14"

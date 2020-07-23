@@ -1,4 +1,4 @@
-package com.example.quikpay.ui.pool
+package com.example.quikpay.ui.pool.pendingpools
 
 import android.os.Bundle
 import android.util.Log
@@ -14,6 +14,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.quikpay.ProgressListener
 import com.example.quikpay.data.models.PoolRequest
 import com.example.quikpay.databinding.FragmentPendingRequestsBinding
+import com.example.quikpay.ui.pool.PoolViewModel
+import com.example.quikpay.ui.pool.PoolViewModelFactory
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.kodein
 import org.kodein.di.generic.instance
@@ -40,7 +42,8 @@ class PendingPoolsFragment : Fragment(), KodeinAware,
     ): View? {
         Log.d(TAG, "fragment created")
         poolViewModel = ViewModelProvider(requireActivity(), factory).get(PoolViewModel::class.java)
-        pendingPoolsAdapter = PendingPoolsViewAdapter(this)
+        pendingPoolsAdapter =
+            PendingPoolsViewAdapter(this)
         binding = FragmentPendingRequestsBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -60,7 +63,8 @@ class PendingPoolsFragment : Fragment(), KodeinAware,
          * @return A new instance of fragment PendingRequestsFragment.
          */
         @JvmStatic
-        fun newInstance() = PendingPoolsFragment()
+        fun newInstance() =
+            PendingPoolsFragment()
     }
 
     override fun onItemClicked(position: Int, item: PoolRequest) {

@@ -1,4 +1,4 @@
-package com.example.quikpay.ui.pool
+package com.example.quikpay.ui.pool.pendingpools
 
 import android.util.Log
 import android.view.LayoutInflater
@@ -13,7 +13,9 @@ import com.example.quikpay.databinding.RequestItemBinding
 import com.example.quikpay.utils.Strings
 
 class PendingPoolsViewAdapter(private var clickListener: ViewHolder.ClickListener) :
-    ListAdapter<PoolRequest, PendingPoolsViewAdapter.ViewHolder>(PendingRequestDiffCallback()) {
+    ListAdapter<PoolRequest, PendingPoolsViewAdapter.ViewHolder>(
+        PendingRequestDiffCallback()
+    ) {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
@@ -21,7 +23,10 @@ class PendingPoolsViewAdapter(private var clickListener: ViewHolder.ClickListene
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder.from(parent, clickListener)
+        return ViewHolder.from(
+            parent,
+            clickListener
+        )
     }
 
     class ViewHolder private constructor(
@@ -55,7 +60,10 @@ class PendingPoolsViewAdapter(private var clickListener: ViewHolder.ClickListene
             ): ViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
                 val binding = RequestItemBinding.inflate(layoutInflater, parent, false)
-                return ViewHolder(binding, clickListener)
+                return ViewHolder(
+                    binding,
+                    clickListener
+                )
             }
 
         }

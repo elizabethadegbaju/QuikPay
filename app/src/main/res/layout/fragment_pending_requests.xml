@@ -5,7 +5,7 @@
     android:id="@+id/constraint_pending_requests"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.pool.PendingPoolsFragment">
+    tools:context=".ui.pool.pendingpools.PendingPoolsFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list"

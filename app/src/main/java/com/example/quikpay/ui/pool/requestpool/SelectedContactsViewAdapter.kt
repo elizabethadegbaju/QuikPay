@@ -1,4 +1,4 @@
-package com.example.quikpay.ui.pool
+package com.example.quikpay.ui.pool.requestpool
 
 import android.util.Log
 import android.view.LayoutInflater
@@ -25,7 +25,10 @@ class SelectedContactsViewAdapter(clickListener: ViewHolder.ClickListener) :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder.from(parent, clickListener)
+        return ViewHolder.from(
+            parent,
+            clickListener
+        )
     }
 
     class ViewHolder private constructor(
@@ -60,7 +63,10 @@ class SelectedContactsViewAdapter(clickListener: ViewHolder.ClickListener) :
             ): ViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
                 val binding = ContactSelectedItemBinding.inflate(layoutInflater, parent, false)
-                return ViewHolder(binding, clickListener)
+                return ViewHolder(
+                    binding,
+                    clickListener
+                )
             }
 
         }

@@ -3,6 +3,8 @@ package com.example.quikpay.ui.pool
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
+import com.example.quikpay.ui.pool.pendingpools.PendingPoolsFragment
+import com.example.quikpay.ui.pool.requestpool.RequestPoolFragment
 
 
 class ViewPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(
