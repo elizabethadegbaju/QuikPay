@@ -11,7 +11,7 @@ class ViewPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(
 ) {
     override fun getItem(position: Int): Fragment {
         return when (position) {
-            1 -> RequestPoolFragment.newInstance()
+            1 -> PendingPoolsFragment.newInstance()
             2 -> RequestPoolFragment.newInstance()
             else -> RequestPoolFragment.newInstance()
         }

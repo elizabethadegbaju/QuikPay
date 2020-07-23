@@ -29,6 +29,7 @@ import org.kodein.di.generic.instance
 
 
 class ContactsFragment : Fragment(), ContactsViewAdapter.ViewHolder.ClickListener, KodeinAware {
+    val TAG = "ContactsFragment"
     override val kodein by kodein()
     private val factory: PoolViewModelFactory by instance()
     private lateinit var poolViewModel: PoolViewModel
@@ -44,6 +45,7 @@ class ContactsFragment : Fragment(), ContactsViewAdapter.ViewHolder.ClickListene
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
+        Log.d(TAG, "fragment created")
         poolViewModel = ViewModelProvider(requireActivity(), factory).get(PoolViewModel::class.java)
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_contacts, container, false)
         recyclerView = binding.list

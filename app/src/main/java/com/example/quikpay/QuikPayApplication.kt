@@ -5,12 +5,12 @@ import com.example.quikpay.data.repositories.GeneralRepository
 import com.example.quikpay.data.repositories.PoolRepository
 import com.example.quikpay.data.repositories.TransactionRepository
 import com.example.quikpay.data.repositories.UserRepository
-import com.example.quikpay.data.repositories.firebase.FirebaseSource
 import com.example.quikpay.ui.authentication.AuthViewModelFactory
 import com.example.quikpay.ui.editprofile.EditProfileViewModelFactory
 import com.example.quikpay.ui.home.HomeViewModelFactory
 import com.example.quikpay.ui.pool.PoolViewModelFactory
 import com.example.quikpay.ui.reportissue.ReportIssueViewModelFactory
+import com.example.quikpay.utils.FirebaseSource
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.androidXModule

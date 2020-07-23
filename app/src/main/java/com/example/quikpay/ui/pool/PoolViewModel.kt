@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.quikpay.ProgressListener
 import com.example.quikpay.data.models.Contact
+import com.example.quikpay.data.models.PoolRequest
 import com.example.quikpay.data.repositories.PoolRepository
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -13,7 +14,7 @@ import io.reactivex.schedulers.Schedulers
 
 
 class PoolViewModel(private val poolRepository: PoolRepository) : ViewModel() {
-    private val TAG = "PoolViewModel"
+    private val TAG = PoolViewModel::class.java.simpleName
 
     private val disposables = CompositeDisposable()
     var progressListener: ProgressListener? = null
@@ -38,6 +39,10 @@ class PoolViewModel(private val poolRepository: PoolRepository) : ViewModel() {
     val selectedContacts: LiveData<MutableList<Contact>>
         get() = _selectedContacts
 
+    private var _pendingRequests = MutableLiveData<MutableList<PoolRequest>>()
+    val pendingRequests: LiveData<MutableList<PoolRequest>>
+        get() = _pendingRequests
+
     fun navigateToContacts() {
         _navigateToContacts.value = true
     }
@@ -47,18 +52,46 @@ class PoolViewModel(private val poolRepository: PoolRepository) : ViewModel() {
     }
 
     fun createPool() {
+        val participants = mutableListOf<String>()
+        _selectedContacts.value?.forEach {
+            participants.add(
+                it.phone
+                    .trim()
+                    .removePrefix("+234")
+                    .removePrefix("234")
+                    .removePrefix("0")
+                    .trim()
+            )
+        }
         _startCreatePool.value = false
         progressListener?.onStarted()
         Log.d(TAG, "I just started create pool")
         val disposable =
-            poolRepository.createPool(description.value!!, target = target.value!!)
+            poolRepository.createPool(description.value!!, participants, target.value!!)
+                .andThen(poolRepository.createRequests(participants, target.value!!))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    Log.d(TAG, "I just finished create pool")
+                    Log.d(TAG, "I just finished create pool $participants")
                     progressListener?.onSuccess()
                 }, {
                     Log.d(TAG, "I couldn't finish create pool")
+                    progressListener?.onFailure(it.message!!)
+                })
+        disposables.add(disposable)
+    }
+
+    fun fetchPendingRequests() {
+        progressListener?.onStarted()
+        val disposable =
+            poolRepository.fetchUserDetails()
+                .andThen(poolRepository.fetchPendingRequests())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    _pendingRequests.value = poolRepository.pendingRequests()
+                    progressListener?.onSuccess()
+                }, {
                     progressListener?.onFailure(it.message!!)
                 })
         disposables.add(disposable)

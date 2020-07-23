@@ -1,6 +1,7 @@
 package com.example.quikpay.ui.pool
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,7 +30,7 @@ import org.kodein.di.generic.instance
  */
 class RequestPoolFragment : Fragment(), KodeinAware, ProgressListener,
     SelectedContactsViewAdapter.ViewHolder.ClickListener {
-
+    private val TAG = RequestPoolFragment::class.java.simpleName
     override val kodein by kodein()
     private val factory: PoolViewModelFactory by instance()
     private lateinit var poolViewModel: PoolViewModel
@@ -41,20 +42,13 @@ class RequestPoolFragment : Fragment(), KodeinAware, ProgressListener,
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
+        Log.d(TAG, "fragment created")
         poolViewModel = ViewModelProvider(requireActivity(), factory).get(PoolViewModel::class.java)
-        poolViewModel.progressListener = this
         binding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_request_pool, container, false)
         binding.poolViewModel = poolViewModel
         binding.lifecycleOwner = activity
-        recyclerView = binding.list
         selectedContactAdapter = SelectedContactsViewAdapter(this)
-        with(recyclerView) {
-            layoutManager = LinearLayoutManager(context)
-            adapter = selectedContactAdapter
-            (adapter as SelectedContactsViewAdapter).submitList(poolViewModel.selectedContacts.value)
-        }
 
         poolViewModel.startCreatePool.observe(viewLifecycleOwner, Observer {
             if (it == true) {
@@ -75,6 +69,17 @@ class RequestPoolFragment : Fragment(), KodeinAware, ProgressListener,
         })
 
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        recyclerView = binding.list
+        poolViewModel.progressListener = this
+        with(recyclerView) {
+            layoutManager = LinearLayoutManager(context)
+            adapter = selectedContactAdapter
+            (adapter as SelectedContactsViewAdapter).submitList(poolViewModel.selectedContacts.value)
+        }
     }
 
     companion object {

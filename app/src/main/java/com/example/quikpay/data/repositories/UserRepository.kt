@@ -1,7 +1,7 @@
 package com.example.quikpay.data.repositories
 
 import android.net.Uri
-import com.example.quikpay.data.repositories.firebase.FirebaseSource
+import com.example.quikpay.utils.FirebaseSource
 
 class UserRepository(
     private val firebase: FirebaseSource

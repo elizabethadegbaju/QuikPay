@@ -1,6 +1,6 @@
 package com.example.quikpay.data.repositories
 
-import com.example.quikpay.data.repositories.firebase.FirebaseSource
+import com.example.quikpay.utils.FirebaseSource
 
 class TransactionRepository(private val firebase: FirebaseSource) {
 
