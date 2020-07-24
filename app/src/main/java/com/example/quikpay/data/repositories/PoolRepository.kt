@@ -15,5 +15,9 @@ class PoolRepository(private val firebase: FirebaseSource) {
 
     fun currentUserDetails() = firebase.userDetails
 
+    fun fetchOpenPools() = firebase.fetchOpenPools()
+
+    fun openPools() = firebase.openPools
+
     fun fetchUserDetails() = firebase.fetchUserDetails()
 }

@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.quikpay.ProgressListener
 import com.example.quikpay.data.models.Contact
+import com.example.quikpay.data.models.Pool
 import com.example.quikpay.data.models.PoolRequest
 import com.example.quikpay.data.repositories.PoolRepository
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -42,6 +43,10 @@ class PoolViewModel(private val poolRepository: PoolRepository) : ViewModel() {
     private var _pendingRequests = MutableLiveData<MutableList<PoolRequest>>()
     val pendingRequests: LiveData<MutableList<PoolRequest>>
         get() = _pendingRequests
+
+    private var _openPools = MutableLiveData<MutableList<Pool>>()
+    val openPools: LiveData<MutableList<Pool>>
+        get() = _openPools
 
     fun navigateToContacts() {
         _navigateToContacts.value = true
@@ -90,6 +95,21 @@ class PoolViewModel(private val poolRepository: PoolRepository) : ViewModel() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
                     _pendingRequests.value = poolRepository.pendingRequests()
+                    progressListener?.onSuccess()
+                }, {
+                    progressListener?.onFailure(it.message!!)
+                })
+        disposables.add(disposable)
+    }
+
+    fun fetchOpenPools() {
+        progressListener?.onStarted()
+        val disposable =
+            poolRepository.fetchOpenPools()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    _openPools.value = poolRepository.openPools()
                     progressListener?.onSuccess()
                 }, {
                     progressListener?.onFailure(it.message!!)

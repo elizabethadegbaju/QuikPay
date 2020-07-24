@@ -29,6 +29,7 @@ class FirebaseSource {
     var sentTransactions = mutableListOf<Transaction>()
     var pendingRequests = mutableListOf<PoolRequest>()
     var receivedTransactions = mutableListOf<Transaction>()
+    var openPools = mutableListOf<Pool>()
     private lateinit var photoURL: String
 
     fun currentUser() = auth.currentUser
@@ -231,7 +232,9 @@ class FirebaseSource {
 
     fun fetchPendingRequests() = Completable.create { emitter ->
         val requestsRef = db.collection("requests")
-        requestsRef.whereEqualTo("to_phoneNo", userDetails.phoneNo).whereEqualTo("paid", false)
+        requestsRef
+            .whereEqualTo("to_phoneNo", userDetails.phoneNo)
+            .whereEqualTo("paid", false)
             .get()
             .addOnCompleteListener { snapshots ->
                 if (!emitter.isDisposed) {
@@ -245,6 +248,27 @@ class FirebaseSource {
                     emitter.onComplete()
                 } else
                     emitter.onError(snapshots.exception!!)
+            }
+    }
+
+    fun fetchOpenPools() = Completable.create { emitter ->
+        val poolsRef = db.collection("pools")
+        poolsRef
+            .whereEqualTo("created_by", currentUser()!!.uid)
+            .get()
+            .addOnCompleteListener { snapshots ->
+                if (!emitter.isDisposed) {
+                    if (snapshots.isSuccessful) {
+                        snapshots.result?.toObjects(Pool::class.java)?.let {
+                            Log.d(TAG, "Successfully fetched open pools: $it")
+                            openPools.clear()
+                            openPools.addAll(it)
+                        }
+                    }
+                    emitter.onComplete()
+                } else {
+                    emitter.onError(snapshots.exception!!)
+                }
             }
     }
 
