@@ -272,4 +272,20 @@ class FirebaseSource {
             }
     }
 
+    fun updateAccountBal(amount: Double) = Completable.create { emitter ->
+        val userRef = db.collection("users").document(currentUser()!!.uid)
+        val newAccountBal = userDetails.accountBal + amount
+        userRef
+            .update("accountBal", newAccountBal)
+            .addOnCompleteListener {
+                if (!emitter.isDisposed) {
+                    if (it.isSuccessful) {
+                        emitter.onComplete()
+                    } else {
+                        emitter.onError(it.exception!!)
+                    }
+                }
+            }
+    }
+
 }

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
@@ -14,8 +15,10 @@ import androidx.viewpager.widget.ViewPager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.quikpay.GodActivity
+import com.example.quikpay.ProgressListener
 import com.example.quikpay.R
 import com.example.quikpay.databinding.FragmentHomeBinding
+import com.example.quikpay.ui.home.topup.TopUpFragment
 import com.example.quikpay.utils.Strings
 import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.activity_god.*
@@ -23,7 +26,7 @@ import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.kodein
 import org.kodein.di.generic.instance
 
-class HomeFragment : Fragment(), KodeinAware {
+class HomeFragment : Fragment(), KodeinAware, ProgressListener {
 
     override val kodein by kodein()
     private val factory: HomeViewModelFactory by instance()
@@ -46,6 +49,7 @@ class HomeFragment : Fragment(), KodeinAware {
         binding.lifecycleOwner = activity
         binding.homeViewModel = homeViewModel
         binding.imageUser.clipToOutline = true
+        homeViewModel.progressListener = this
         homeViewModel.fetchUserDetails()
 
         homeViewModel.userDetails.observe(viewLifecycleOwner, Observer {
@@ -78,6 +82,19 @@ class HomeFragment : Fragment(), KodeinAware {
                 homeViewModel.doneShowNavDrawer()
             }
         })
+        homeViewModel.navigateToTopUp.observe(viewLifecycleOwner, Observer {
+            if (it == true) {
+                binding.buttonTopUp.visibility = View.GONE
+                binding.tabLayoutHome.visibility = View.GONE
+                binding.viewPagerHome.visibility = View.GONE
+                val topUpFragment = TopUpFragment.newInstance()
+                childFragmentManager.beginTransaction().apply {
+                    add(R.id.frame_top_up, topUpFragment)
+                    commit()
+                }
+                homeViewModel.onNavigateToTopUp()
+            }
+        })
 
         viewPager = binding.viewPagerHome
         tabLayout = binding.tabLayoutHome
@@ -97,5 +114,18 @@ class HomeFragment : Fragment(), KodeinAware {
     override fun onStop() {
         super.onStop()
         (activity as AppCompatActivity?)!!.supportActionBar?.show()
+    }
+
+    override fun onStarted() {
+        binding.progressbar.visibility = View.VISIBLE
+    }
+
+    override fun onSuccess() {
+        binding.progressbar.visibility = View.GONE
+    }
+
+    override fun onFailure(message: String) {
+        binding.progressbar.visibility = View.GONE
+        Toast.makeText(requireActivity(), message, Toast.LENGTH_SHORT).show()
     }
 }

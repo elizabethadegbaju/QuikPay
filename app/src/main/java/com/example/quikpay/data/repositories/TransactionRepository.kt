@@ -14,6 +14,8 @@ class TransactionRepository(private val firebase: FirebaseSource) {
 
     fun sentHistory() = firebase.sentTransactions
 
+    fun updateAccountBal(amount: Double) = firebase.updateAccountBal(amount)
+
     fun receivedHistory() = firebase.receivedTransactions
 
 }
