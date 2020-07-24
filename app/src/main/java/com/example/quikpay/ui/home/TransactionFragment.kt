@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.quikpay.R
 import com.example.quikpay.databinding.FragmentTransactionListBinding
 import org.kodein.di.KodeinAware
@@ -27,6 +28,7 @@ class TransactionFragment : Fragment(), KodeinAware {
     override val kodein by kodein()
     private val factory: HomeViewModelFactory by instance()
     private lateinit var homeViewModel: HomeViewModel
+    private lateinit var recyclerView: RecyclerView
     private var columnCount = 1
     private var transactionType = "all"
 
@@ -45,7 +47,7 @@ class TransactionFragment : Fragment(), KodeinAware {
     ): View? {
         val binding: FragmentTransactionListBinding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_transaction_list, container, false)
-        val recyclerView = binding.list
+        recyclerView = binding.list
         homeViewModel = ViewModelProvider(requireActivity(), factory).get(HomeViewModel::class.java)
         binding.homeViewModel = homeViewModel
         binding.lifecycleOwner = activity
@@ -53,7 +55,21 @@ class TransactionFragment : Fragment(), KodeinAware {
         homeViewModel.fetchUserDetails()
         homeViewModel.setCurrentTab(transactionType)
 
-        // Set the adapter
+        homeViewModel.navigateToViewOlder.observe(viewLifecycleOwner, Observer {
+            if (it == true) {
+                Navigation.findNavController(binding.root)
+                    .navigate(HomeFragmentDirections.actionNavHomeToViewOlderFragment())
+                Log.d("TransactionFragment", "I should have navigated by now")
+                homeViewModel.onNavigateToViewOlder()
+            }
+        })
+
+        return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+
         with(recyclerView) {
             layoutManager = when {
                 columnCount <= 1 -> LinearLayoutManager(context)
@@ -78,29 +94,20 @@ class TransactionFragment : Fragment(), KodeinAware {
                         (adapter as TransactionsViewAdapter).submitList(homeViewModel.sentTransactions.value)
                 }
             })
-            homeViewModel.allTransactions.observe(viewLifecycleOwner, Observer {
-                if (it.isNotEmpty()) {
-                    if (transactionType == "all")
-                        (adapter as TransactionsViewAdapter).submitList(homeViewModel.allTransactions.value)
-                }
-            })
             homeViewModel.receivedTransactions.observe(viewLifecycleOwner, Observer {
                 if (it.isNotEmpty()) {
                     if (transactionType == "received")
                         (adapter as TransactionsViewAdapter).submitList(homeViewModel.receivedTransactions.value)
                 }
             })
+            homeViewModel.allTransactions.observe(viewLifecycleOwner, Observer {
+                if (it.isNotEmpty()) {
+                    if (transactionType == "all")
+                        (adapter as TransactionsViewAdapter).submitList(homeViewModel.allTransactions.value)
+                }
+            })
         }
-        homeViewModel.navigateToViewOlder.observe(viewLifecycleOwner, Observer {
-            if (it == true) {
-                Navigation.findNavController(binding.root)
-                    .navigate(HomeFragmentDirections.actionNavHomeToViewOlderFragment())
-                Log.d("TransactionFragment", "I should have navigated by now")
-                homeViewModel.onNavigateToViewOlder()
-            }
-        })
 
-        return binding.root
     }
 
     companion object {
