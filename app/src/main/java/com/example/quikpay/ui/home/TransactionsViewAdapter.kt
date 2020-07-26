@@ -10,14 +10,14 @@ import com.example.quikpay.data.models.Transaction
 import com.example.quikpay.databinding.TransactionItemBinding
 import com.example.quikpay.utils.Strings
 
-class TransactionsViewAdapter(val email: String) :
+class TransactionsViewAdapter :
     ListAdapter<Transaction, TransactionsViewAdapter.ViewHolder>(
         TransactionDiffCallback()
     ) {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
-        holder.bind(item!!, email)
+        holder.bind(item!!)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -27,7 +27,7 @@ class TransactionsViewAdapter(val email: String) :
     class ViewHolder private constructor(val binding: TransactionItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: Transaction, email: String) {
+        fun bind(item: Transaction) {
             binding.transactionDate.text = item.date
             val amount = item.amount.toString().split('.')
             val amountWhole = String.format("%,d", amount[0].toInt())

@@ -136,7 +136,7 @@ class ContactsFragment : Fragment(), ContactsViewAdapter.ViewHolder.ClickListene
                 val contact = Contact()
                 contact.name = name
                 contact.id = id
-//                selectUser.photo = photo
+//                contact.photo = photo
                 contact.phone = phoneNumber
                 contacts.add(contact)
             }

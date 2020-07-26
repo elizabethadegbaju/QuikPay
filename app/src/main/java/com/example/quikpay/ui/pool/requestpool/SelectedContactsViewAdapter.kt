@@ -9,15 +9,8 @@ import com.example.quikpay.data.models.Contact
 import com.example.quikpay.databinding.ContactSelectedItemBinding
 import com.example.quikpay.utils.SelectableAdapter
 
-class SelectedContactsViewAdapter(clickListener: ViewHolder.ClickListener) :
+class SelectedContactsViewAdapter(private var clickListener: ViewHolder.ClickListener) :
     SelectableAdapter<SelectedContactsViewAdapter.ViewHolder>() {
-
-    private var clickListener: ViewHolder.ClickListener
-
-    init {
-        var selectedContacts = mutableListOf<Contact>()
-        this.clickListener = clickListener
-    }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)

@@ -75,7 +75,7 @@ class TransactionFragment : Fragment(), KodeinAware {
                 columnCount <= 1 -> LinearLayoutManager(context)
                 else -> GridLayoutManager(context, columnCount)
             }
-            adapter = TransactionsViewAdapter(homeViewModel.userDetails.value!!.email)
+            adapter = TransactionsViewAdapter()
 
             when (transactionType) {
                 "all" -> {
@@ -116,7 +116,7 @@ class TransactionFragment : Fragment(), KodeinAware {
         const val ARG_TRANSACTION_TYPE = "transaction-type"
 
         @JvmStatic
-        fun newInstance(columnCount: Int, type: String, viewOlder: Boolean = false) =
+        fun newInstance(columnCount: Int, type: String) =
             TransactionFragment().apply {
                 arguments = Bundle().apply {
                     putInt(ARG_COLUMN_COUNT, columnCount)
