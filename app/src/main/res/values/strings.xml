@@ -59,7 +59,7 @@
     <string name="top_up">Top up</string>
     <string name="sample_name_female">Jane Peterson</string>
     <string name="var_reference_no">Ref. No: %1$s</string>
-    <string name="var_amount_whole">$%1$s.</string>
+    <string name="var_amount_whole">+$%1$s.</string>
     <string name="var_amount_whole_minus">-$%1$s.</string>
     <string name="view_older">View Older</string>
     <string name="tab_request">Request</string>
@@ -82,4 +82,28 @@
     <string name="enter_amount">Enter Amount</string>
     <string name="enter_quikpay_id">Enter Quikpay ID</string>
     <string name="or">or</string>
+    <string-array name="banks">
+        <item>Access Bank Plc</item>
+        <item>Citibank Nigeria Limited</item>
+        <item>Ecobank Nigeria Plc</item>
+        <item>Fidelity Bank Plc</item>
+        <item>First Bank Nigeria Limited</item>
+        <item>First City Monument Bank Plc</item>
+        <item>Globus Bank Limited</item>
+        <item>Guaranty Trust Bank Plc</item>
+        <item>Heritage Banking Company Ltd.</item>
+        <item>Key Stone Bank</item>
+        <item>Polaris Bank</item>
+        <item>Providus Bank</item>
+        <item>Stanbic IBTC Bank Ltd.</item>
+        <item>Standard Chartered Bank Nigeria Ltd.</item>
+        <item>Sterling Bank Plc</item>
+        <item>SunTrust Bank Nigeria Limited</item>
+        <item>Titan Trust Bank Ltd</item>
+        <item>Union Bank of Nigeria Plc</item>
+        <item>United Bank For Africa Plc</item>
+        <item>Unity Bank Plc</item>
+        <item>Wema Bank Plc</item>
+        <item>Zenith Bank Plc</item>
+    </string-array>
 </resources>

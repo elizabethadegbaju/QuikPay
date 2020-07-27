@@ -5,25 +5,20 @@ import android.util.Log
 import com.example.quikpay.data.models.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.QueryDocumentSnapshot
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import io.reactivex.Completable
+import io.reactivex.Observable
 import java.time.LocalDate
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
 class FirebaseSource {
     private val TAG = FirebaseSource::class.java.simpleName
-    private val db: FirebaseFirestore by lazy {
-        FirebaseFirestore.getInstance()
-    }
-    private val auth: FirebaseAuth by lazy {
-        FirebaseAuth.getInstance()
-    }
-
-    private val storageReference: StorageReference by lazy {
-        FirebaseStorage.getInstance().reference
-    }
+    private val db: FirebaseFirestore by lazy { FirebaseFirestore.getInstance() }
+    private val auth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
+    private val storage: StorageReference by lazy { FirebaseStorage.getInstance().reference }
 
     lateinit var userDetails: User
     var sentTransactions = mutableListOf<Transaction>()
@@ -33,7 +28,6 @@ class FirebaseSource {
     private lateinit var photoURL: String
 
     fun currentUser() = auth.currentUser
-
 
     fun login(email: String, password: String) =
         Completable.create { emitter ->
@@ -105,7 +99,7 @@ class FirebaseSource {
 
     fun uploadFile(filePath: Uri, phoneNo: String) =
         Completable.create { emitter ->
-            val imagesRef = storageReference.child("images/$phoneNo.jpg")
+            val imagesRef = storage.child("images/$phoneNo.jpg")
             imagesRef.putFile(filePath)
                 .addOnCompleteListener {
                     if (!emitter.isDisposed) {
@@ -246,50 +240,52 @@ class FirebaseSource {
                 }
         }
 
-    fun fetchPendingRequests() = Completable.create { emitter ->
-        val requestsRef = db.collection("requests")
-        requestsRef
-            .whereEqualTo("to_phoneNo", userDetails.phoneNo)
-            .whereEqualTo("paid", false)
-            .get()
-            .addOnCompleteListener { snapshots ->
-                if (!emitter.isDisposed) {
-                    if (snapshots.isSuccessful) {
-                        snapshots.result?.toObjects(PoolRequest::class.java)?.let {
-                            Log.d(
-                                TAG,
-                                "fetchPendingRequests: Successfully fetched pending requests: $it"
-                            )
-                            pendingRequests.clear()
-                            pendingRequests.addAll(it)
+    fun fetchPendingRequests() =
+        Completable.create { emitter ->
+            val requestsRef = db.collection("requests")
+            requestsRef
+                .whereEqualTo("to_phoneNo", userDetails.phoneNo)
+                .whereEqualTo("paid", false)
+                .get()
+                .addOnCompleteListener { snapshots ->
+                    if (!emitter.isDisposed) {
+                        if (snapshots.isSuccessful) {
+                            snapshots.result?.toObjects(PoolRequest::class.java)?.let {
+                                Log.d(
+                                    TAG,
+                                    "fetchPendingRequests: Successfully fetched pending requests: $it"
+                                )
+                                pendingRequests.clear()
+                                pendingRequests.addAll(it)
+                            }
                         }
-                    }
-                    emitter.onComplete()
-                } else
-                    emitter.onError(snapshots.exception!!)
-            }
-    }
-
-    fun fetchOpenPools() = Completable.create { emitter ->
-        val poolsRef = db.collection("pools")
-        poolsRef
-            .whereEqualTo("created_by", currentUser()!!.uid)
-            .get()
-            .addOnCompleteListener { snapshots ->
-                if (!emitter.isDisposed) {
-                    if (snapshots.isSuccessful) {
-                        snapshots.result?.toObjects(Pool::class.java)?.let {
-                            Log.d(TAG, "fetchOpenPools: Successfully fetched open pools: $it")
-                            openPools.clear()
-                            openPools.addAll(it)
-                        }
-                    }
-                    emitter.onComplete()
-                } else {
-                    emitter.onError(snapshots.exception!!)
+                        emitter.onComplete()
+                    } else
+                        emitter.onError(snapshots.exception!!)
                 }
-            }
-    }
+        }
+
+    fun fetchOpenPools() =
+        Completable.create { emitter ->
+            val poolsRef = db.collection("pools")
+            poolsRef
+                .whereEqualTo("created_by", currentUser()!!.uid)
+                .get()
+                .addOnCompleteListener { snapshots ->
+                    if (!emitter.isDisposed) {
+                        if (snapshots.isSuccessful) {
+                            snapshots.result?.toObjects(Pool::class.java)?.let {
+                                Log.d(TAG, "fetchOpenPools: Successfully fetched open pools: $it")
+                                openPools.clear()
+                                openPools.addAll(it)
+                            }
+                        }
+                        emitter.onComplete()
+                    } else {
+                        emitter.onError(snapshots.exception!!)
+                    }
+                }
+        }
 
     fun updateAccountBal(
         amount: Double,
@@ -306,7 +302,7 @@ class FirebaseSource {
                         if (it.isSuccessful) {
                             Log.d(
                                 TAG,
-                                "updateAccountBal: Account balance updated to $newAccountBal for $accountBal"
+                                "updateAccountBal: Account balance updated to $newAccountBal for $userUid"
                             )
                             emitter.onComplete()
                         } else {
@@ -316,22 +312,47 @@ class FirebaseSource {
                 }
         }
 
-    fun findUser(accountNo: String) = Completable.create { emitter ->
-        val usersRef = db.collection("users")
-        usersRef
-            .whereEqualTo("accountNo", accountNo)
-            .get()
-            .addOnCompleteListener {
-                if (!emitter.isDisposed) {
-                    if (it.isSuccessful) {
-                        val quikpayUser = it.result?.first()?.toObject(User::class.java)
-                        Log.d(TAG, "findUser: $quikpayUser")
-                        emitter.onComplete()
-                    } else {
-                        emitter.onError(it.exception!!)
+    fun findUser(accountNo: String) =
+        Observable.create<QueryDocumentSnapshot> { emitter ->
+            val usersRef = db.collection("users")
+            usersRef
+                .whereEqualTo("accountNo", accountNo)
+                .get()
+                .addOnCompleteListener {
+                    if (!emitter.isDisposed) {
+                        if (it.isSuccessful) {
+                            val document = it.result?.first()
+                            val quikpayUser = document?.toObject(User::class.java)
+                            Log.d(TAG, "findUser: $quikpayUser")
+                            emitter.onNext(document!!)
+                        } else {
+                            emitter.onError(it.exception!!)
+                        }
                     }
                 }
-            }
-    }
+        }
+
+    fun createTransaction(transaction: Transaction, userUid: String = currentUser()!!.uid) =
+        Completable.create { emitter ->
+            val userTransactionsReference =
+                db.collection("transactions")
+                    .document(userUid)
+                    .collection("user_transactions")
+            userTransactionsReference
+                .add(transaction)
+                .addOnCompleteListener {
+                    if (!emitter.isDisposed) {
+                        if (it.isSuccessful) {
+                            Log.d(
+                                TAG,
+                                "createTransaction: Transaction created ${transaction.type} $userUid"
+                            )
+                            emitter.onComplete()
+                        } else {
+                            emitter.onError(it.exception!!)
+                        }
+                    }
+                }
+        }
 
 }

@@ -10,6 +10,7 @@ import com.example.quikpay.ui.editprofile.EditProfileViewModelFactory
 import com.example.quikpay.ui.home.HomeViewModelFactory
 import com.example.quikpay.ui.pool.PoolViewModelFactory
 import com.example.quikpay.ui.reportissue.ReportIssueViewModelFactory
+import com.example.quikpay.ui.sendmoney.SendMoneyViewModelFactory
 import com.example.quikpay.utils.FirebaseSource
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
@@ -45,6 +46,7 @@ class QuikPayApplication : Application(), KodeinAware {
         bind() from provider { ReportIssueViewModelFactory(instance()) }
         bind() from provider { HomeViewModelFactory(instance()) }
         bind() from provider { PoolViewModelFactory(instance()) }
+        bind() from provider { SendMoneyViewModelFactory(instance()) }
 
     }
 }
