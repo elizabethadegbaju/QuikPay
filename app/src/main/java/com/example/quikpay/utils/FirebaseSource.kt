@@ -39,9 +39,10 @@ class FirebaseSource {
         Completable.create { emitter ->
             auth.signInWithEmailAndPassword(email, password).addOnCompleteListener {
                 if (!emitter.isDisposed) {
-                    if (it.isSuccessful)
+                    if (it.isSuccessful) {
+                        Log.d(TAG, "login: user $email logged in successfully")
                         emitter.onComplete()
-                    else
+                    } else
                         emitter.onError(it.exception!!)
                 }
             }
@@ -52,6 +53,7 @@ class FirebaseSource {
             auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener {
                 if (!emitter.isDisposed) {
                     if (it.isSuccessful) {
+                        Log.d(TAG, "register: user $email registered successfully")
                         emitter.onComplete()
                     } else
                         emitter.onError(it.exception!!)
@@ -73,9 +75,10 @@ class FirebaseSource {
                 .set(user)
                 .addOnCompleteListener {
                     if (!emitter.isDisposed) {
-                        if (it.isSuccessful)
+                        if (it.isSuccessful) {
+                            Log.d(TAG, "saveUserDetails: User details saved for $name")
                             emitter.onComplete()
-                        else
+                        } else
                             emitter.onError(it.exception!!)
                     }
                 }
@@ -84,13 +87,13 @@ class FirebaseSource {
     fun reportIssue(message: String, date: String, timezone: String) =
         Completable.create { emitter ->
             val issue = Complaint(message, currentUser()!!.email!!, date, timezone)
-            Log.d(TAG, "created the issue item")
+            Log.d(TAG, "reportIssue: created the issue item")
             val complaintsRef = db.collection("complaints")
             complaintsRef.add(issue)
                 .addOnCompleteListener {
                     if (!emitter.isDisposed) {
                         if (it.isSuccessful) {
-                            Log.d(TAG, "successfully submitted the issue")
+                            Log.d(TAG, "reportIssue: successfully submitted the issue")
                             emitter.onComplete()
                         } else {
                             Log.d(TAG, it.exception?.message!!)
@@ -110,6 +113,7 @@ class FirebaseSource {
                             imagesRef.downloadUrl
                                 .addOnCompleteListener { task ->
                                     photoURL = task.result.toString()
+                                    Log.d(TAG, "uploadFile: profile picture uploaded")
                                     emitter.onComplete()
                                 }
                         } else
@@ -125,7 +129,7 @@ class FirebaseSource {
                 .addOnCompleteListener {
                     if (!emitter.isDisposed) {
                         if (it.isSuccessful) {
-                            Log.d(TAG, "Current user details: ${it.result?.data}")
+                            Log.d(TAG, "fetchUserDetails: Current user details: ${it.result?.data}")
                             userDetails = it.result?.toObject(User::class.java)!!
                         }
                         emitter.onComplete()
@@ -143,7 +147,10 @@ class FirebaseSource {
                 .get().addOnCompleteListener { snapshots ->
                     if (!emitter.isDisposed) {
                         if (snapshots.isSuccessful) {
-                            Log.d(TAG, "Current sent data: ${snapshots.result?.size()}")
+                            Log.d(
+                                TAG,
+                                "updateSentHistory: Current sent data: ${snapshots.result?.size()}"
+                            )
                             snapshots.result?.toObjects(Transaction::class.java)?.let {
                                 sentTransactions.clear()
                                 sentTransactions.addAll(it)
@@ -151,7 +158,7 @@ class FirebaseSource {
                         }
                         emitter.onComplete()
                     } else {
-                        Log.d(TAG, "Current sent data: null")
+                        Log.d(TAG, "updateSentHistory: Current sent data: null")
                         emitter.onError(snapshots.exception!!)
                     }
                 }
@@ -166,7 +173,10 @@ class FirebaseSource {
                 .get().addOnCompleteListener { snapshots ->
                     if (!emitter.isDisposed) {
                         if (snapshots.isSuccessful) {
-                            Log.d(TAG, "Current received data: ${snapshots.result?.size()}")
+                            Log.d(
+                                TAG,
+                                "updateReceivedHistory: Current received data: ${snapshots.result?.size()}"
+                            )
                             snapshots.result?.toObjects(Transaction::class.java)?.let {
                                 receivedTransactions.clear()
                                 receivedTransactions.addAll(it)
@@ -174,7 +184,7 @@ class FirebaseSource {
                         }
                         emitter.onComplete()
                     } else {
-                        Log.d(TAG, "Current received data: null")
+                        Log.d(TAG, "updateReceivedHistory: Current received data: null")
                         emitter.onError(snapshots.exception!!)
                     }
                 }
@@ -196,10 +206,15 @@ class FirebaseSource {
                             amount
                         )
                     batch.set(ref, request)
+                    Log.d(TAG, "createRequests: $participant added to batch")
                 }
             }.addOnCompleteListener {
                 if (!emitter.isDisposed) {
                     if (it.isSuccessful) {
+                        Log.d(
+                            TAG,
+                            "createRequests: All requests successfully created for these participants : $participants"
+                        )
                         emitter.onComplete()
                     } else {
                         emitter.onError(it.exception!!)
@@ -222,6 +237,7 @@ class FirebaseSource {
                 .addOnCompleteListener {
                     if (!emitter.isDisposed) {
                         if (it.isSuccessful) {
+                            Log.d(TAG, "createPool: New pool created by ${currentUser()!!.uid}")
                             emitter.onComplete()
                         } else {
                             emitter.onError(it.exception!!)
@@ -240,7 +256,10 @@ class FirebaseSource {
                 if (!emitter.isDisposed) {
                     if (snapshots.isSuccessful) {
                         snapshots.result?.toObjects(PoolRequest::class.java)?.let {
-                            Log.d(TAG, "Successfully fetched pending requests: $it")
+                            Log.d(
+                                TAG,
+                                "fetchPendingRequests: Successfully fetched pending requests: $it"
+                            )
                             pendingRequests.clear()
                             pendingRequests.addAll(it)
                         }
@@ -260,7 +279,7 @@ class FirebaseSource {
                 if (!emitter.isDisposed) {
                     if (snapshots.isSuccessful) {
                         snapshots.result?.toObjects(Pool::class.java)?.let {
-                            Log.d(TAG, "Successfully fetched open pools: $it")
+                            Log.d(TAG, "fetchOpenPools: Successfully fetched open pools: $it")
                             openPools.clear()
                             openPools.addAll(it)
                         }
@@ -272,14 +291,41 @@ class FirebaseSource {
             }
     }
 
-    fun updateAccountBal(amount: Double) = Completable.create { emitter ->
-        val userRef = db.collection("users").document(currentUser()!!.uid)
-        val newAccountBal = userDetails.accountBal + amount
-        userRef
-            .update("accountBal", newAccountBal)
+    fun updateAccountBal(
+        amount: Double,
+        accountBal: Double = userDetails.accountBal,
+        userUid: String = currentUser()!!.uid
+    ) =
+        Completable.create { emitter ->
+            val userRef = db.collection("users").document(userUid)
+            val newAccountBal = accountBal + amount
+            userRef
+                .update("accountBal", newAccountBal)
+                .addOnCompleteListener {
+                    if (!emitter.isDisposed) {
+                        if (it.isSuccessful) {
+                            Log.d(
+                                TAG,
+                                "updateAccountBal: Account balance updated to $newAccountBal for $accountBal"
+                            )
+                            emitter.onComplete()
+                        } else {
+                            emitter.onError(it.exception!!)
+                        }
+                    }
+                }
+        }
+
+    fun findUser(accountNo: String) = Completable.create { emitter ->
+        val usersRef = db.collection("users")
+        usersRef
+            .whereEqualTo("accountNo", accountNo)
+            .get()
             .addOnCompleteListener {
                 if (!emitter.isDisposed) {
                     if (it.isSuccessful) {
+                        val quikpayUser = it.result?.first()?.toObject(User::class.java)
+                        Log.d(TAG, "findUser: $quikpayUser")
                         emitter.onComplete()
                     } else {
                         emitter.onError(it.exception!!)
