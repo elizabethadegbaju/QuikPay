@@ -28,7 +28,7 @@ class TransactionsViewAdapter :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: Transaction) {
-            binding.transactionDate.text = item.date
+            binding.transactionDate.text = item.date?.toDate().toString()
             val amount = item.amount.toString().split('.')
             val amountWhole = String.format("%,d", amount[0].toInt())
             when (item.type) {
