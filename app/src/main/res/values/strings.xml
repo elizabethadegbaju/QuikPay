@@ -59,7 +59,8 @@
     <string name="top_up">Top up</string>
     <string name="sample_name_female">Jane Peterson</string>
     <string name="var_reference_no">Ref. No: %1$s</string>
-    <string name="var_amount_whole">$ %1$s.</string>
+    <string name="var_amount_whole">$%1$s.</string>
+    <string name="var_amount_whole_minus">-$%1$s.</string>
     <string name="view_older">View Older</string>
     <string name="tab_request">Request</string>
     <string name="tab_pending">Pending</string>
@@ -71,4 +72,14 @@
     <string name="request_sent_date">Sent %1$s</string>
     <string name="select_bank_account">Select bank account</string>
     <string name="btn_continue">Continue</string>
+    <string name="send_to">Send to</string>
+    <string name="quikpay_account">Quikpay Account</string>
+    <string name="bank_account">Bank Account</string>
+    <string name="done">Done</string>
+    <string name="enter_description_optional">Enter Description (Optional)</string>
+    <string name="enter_account_number">Enter Account Number</string>
+    <string name="dollar">$</string>
+    <string name="enter_amount">Enter Amount</string>
+    <string name="enter_quikpay_id">Enter Quikpay ID</string>
+    <string name="or">or</string>
 </resources>

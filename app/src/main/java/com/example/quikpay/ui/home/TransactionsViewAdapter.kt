@@ -36,7 +36,7 @@ class TransactionsViewAdapter :
                     binding.transactionType.setImageResource(R.drawable.ic_call_made_24)
                     binding.transactionUser.text = item.other_user
                     binding.transactionAmount.text = Strings.get(
-                        R.string.var_amount_whole, amountWhole
+                        R.string.var_amount_whole_minus, amountWhole
                     )
                 }
                 "to" -> {
