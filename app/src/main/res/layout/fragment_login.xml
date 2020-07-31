@@ -127,7 +127,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="26dp"
             android:layout_marginBottom="42dp"
-            android:onClick="@{(view)->authViewModel.goToForgotPassword(view)}"
+            android:onClick="@{(view)->authViewModel.navigateToForgotPassword(view)}"
             android:text="@string/forgot_password"
             android:textColor="@color/white"
             android:textSize="15sp"

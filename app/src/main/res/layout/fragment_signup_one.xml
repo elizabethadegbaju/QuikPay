@@ -25,6 +25,7 @@
             android:layout_marginTop="40dp"
             android:textColorHint="@color/white"
             app:boxStrokeColor="@drawable/edit_text_state_colors"
+            app:hintTextColor="@color/colorAccent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageView5"
@@ -51,6 +52,7 @@
             android:layout_marginTop="40dp"
             android:textColorHint="@color/white"
             app:boxStrokeColor="@drawable/edit_text_state_colors"
+            app:hintTextColor="@color/colorAccent"
             app:layout_constraintEnd_toEndOf="@id/edit_text_full_name"
             app:layout_constraintStart_toStartOf="@id/edit_text_full_name"
             app:layout_constraintTop_toBottomOf="@id/edit_text_full_name"
@@ -158,8 +160,8 @@
             android:layout_height="85dp"
             android:layout_marginStart="0dp"
             android:layout_marginTop="21dp"
-            android:onClick="@{()->authViewModel.startUploadPhoto()}"
             android:background="@drawable/ic_circle_border"
+            android:onClick="@{()->authViewModel.startUploadPhoto()}"
             app:layout_constraintStart_toStartOf="@id/edit_text_full_name"
             app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
@@ -214,6 +216,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="18dp"
+            android:onClick="@{(view)->authViewModel.navigateToLogin(view)}"
             android:text="@string/already_have_an_account_login"
             android:textColor="@color/white"
             android:textSize="15sp"

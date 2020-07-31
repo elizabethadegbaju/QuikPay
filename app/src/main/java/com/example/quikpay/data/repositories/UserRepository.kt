@@ -18,5 +18,9 @@ class UserRepository(
     fun saveUserDetails(name: String, phoneNo: String) =
         firebase.saveUserDetails(name, phoneNo)
 
+    fun fetchUserDetails() = firebase.fetchUserDetails()
+
+    fun userDetails() = firebase.userDetails
+
     fun uploadFile(filePath: Uri, phoneNo: String) = firebase.uploadFile(filePath, phoneNo)
 }

@@ -123,13 +123,13 @@ class AuthViewModel(
         _navigateToPageTwo.value = false
     }
 
-    fun goToLogin(view: View) {
+    fun navigateToLogin(view: View) {
         Intent(view.context, LoginActivity::class.java).also {
             view.context.startActivity(it)
         }
     }
 
-    fun goToForgotPassword(view: View) {
+    fun navigateToForgotPassword(view: View) {
         Intent(view.context, ForgotPasswordActivity::class.java).also {
             view.context.startActivity(it)
         }

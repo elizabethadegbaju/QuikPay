@@ -59,7 +59,8 @@
     <string name="top_up">Top up</string>
     <string name="sample_name_female">Jane Peterson</string>
     <string name="var_reference_no">Ref. No: %1$s</string>
-    <string name="var_amount_whole">+$%1$s.</string>
+    <string name="var_amount_whole_plus">+$%1$s.</string>
+    <string name="var_amount_whole">$%1$s.</string>
     <string name="var_amount_whole_minus">-$%1$s.</string>
     <string name="view_older">View Older</string>
     <string name="tab_request">Request</string>
@@ -82,6 +83,10 @@
     <string name="enter_amount">Enter Amount</string>
     <string name="enter_quikpay_id">Enter Quikpay ID</string>
     <string name="or">or</string>
+    <string name="full_name">Full Name</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="update_profile">Update Profile</string>
+    <string name="please_enter_your_registered_email_id">Please enter your registered email ID</string>
     <string-array name="banks">
         <item>Access Bank Plc</item>
         <item>Citibank Nigeria Limited</item>
