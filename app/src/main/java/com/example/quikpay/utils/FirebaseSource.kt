@@ -11,7 +11,6 @@ import com.google.firebase.storage.StorageReference
 import io.reactivex.Completable
 import io.reactivex.Observable
 import java.time.LocalDate
-import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
 class FirebaseSource {
@@ -59,10 +58,10 @@ class FirebaseSource {
 
     fun saveUserDetails(name: String, phoneNo: String) =
         Completable.create { emitter ->
-            val today = LocalDate.now(ZoneId.of("WAT"))
+            val today = LocalDate.now()
             val formatter = DateTimeFormatter.ofPattern("ddMMyy")
             val formatted = today.format(formatter)
-            val accountNo = formatted + phoneNo[-4]
+            val accountNo = formatted + phoneNo.slice(6..9)
             val user = User(name, currentUser()!!.email!!, phoneNo, photoURL, accountNo)
             val usersRef = db.collection("users")
             usersRef.document(currentUser()!!.uid)
