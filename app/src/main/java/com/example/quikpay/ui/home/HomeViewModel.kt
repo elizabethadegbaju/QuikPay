@@ -55,6 +55,18 @@ class HomeViewModel(private val transactionRepository: TransactionRepository) : 
     val startTopUp: LiveData<Boolean>
         get() = _startTopUp
 
+    private var _navigateToNotifications = MutableLiveData<Boolean>()
+    val navigateToNotifications: LiveData<Boolean>
+        get() = _navigateToNotifications
+
+    fun navigateToNotifications() {
+        _navigateToNotifications.value = true
+    }
+
+    fun onNavigateToNotifications() {
+        _navigateToNotifications.value = false
+    }
+
     fun navigateToViewOlder() {
         _navigateToViewOlder.value = true
     }

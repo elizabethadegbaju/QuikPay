@@ -3,6 +3,7 @@ package com.example.quikpay.utils
 import android.net.Uri
 import android.util.Log
 import com.example.quikpay.data.models.*
+import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QueryDocumentSnapshot
@@ -96,22 +97,41 @@ class FirebaseSource {
                 }
         }
 
-    fun uploadFile(filePath: Uri, phoneNo: String) =
+    fun uploadFile(filePath: Uri?, phoneNo: String) =
         Completable.create { emitter ->
             val imagesRef = storage.child("images/$phoneNo.jpg")
-            imagesRef.putFile(filePath)
+            filePath?.let { filePath ->
+                imagesRef.putFile(filePath)
+                    .addOnCompleteListener {
+                        if (!emitter.isDisposed) {
+                            if (it.isSuccessful) {
+                                imagesRef.downloadUrl
+                                    .addOnCompleteListener { task ->
+                                        photoURL = task.result.toString()
+                                        Log.d(TAG, "uploadFile: profile picture uploaded")
+                                        emitter.onComplete()
+                                    }
+                            } else
+                                emitter.onError(it.exception!!)
+                        }
+                    }
+            }
+
+        }
+
+    fun reauthenticate(email: String, password: String) =
+        Completable.create { emitter ->
+            val credential = EmailAuthProvider
+                .getCredential(email, password)
+            currentUser()!!.reauthenticate(credential)
                 .addOnCompleteListener {
                     if (!emitter.isDisposed) {
                         if (it.isSuccessful) {
-                            imagesRef.downloadUrl
-                                .addOnCompleteListener { task ->
-                                    photoURL = task.result.toString()
-                                    Log.d(TAG, "uploadFile: profile picture uploaded")
-                                    emitter.onComplete()
-                                }
-                        } else
-                            emitter.onError(it.exception!!)
-                    }
+                            Log.d(TAG, "reauthenticate: User re-authenticated.")
+                        }
+                        emitter.onComplete()
+                    } else
+                        emitter.onError(it.exception!!)
                 }
         }
 
@@ -128,6 +148,52 @@ class FirebaseSource {
                         emitter.onComplete()
                     } else
                         emitter.onError(it.exception!!)
+                }
+        }
+
+    fun updateUserDetails(name: String, phoneNo: String, email: String) =
+        Completable.create { emitter ->
+            val usersRef = db.collection("users")
+            usersRef.document(currentUser()!!.uid)
+                .update("name", name, "phoneNo", phoneNo, "email", email, "photoURL", photoURL)
+                .addOnCompleteListener {
+                    if (!emitter.isDisposed) {
+                        if (it.isSuccessful) {
+                            Log.d(TAG, "updateUserDetails: User details updated for $name")
+                            emitter.onComplete()
+                        } else
+                            emitter.onError(it.exception!!)
+                    }
+                }
+        }
+
+    fun updatePassword(password: String) =
+        Completable.create { emitter ->
+            val user = currentUser()
+            user!!.updatePassword(password)
+                .addOnCompleteListener { task ->
+                    if (!emitter.isDisposed) {
+                        if (task.isSuccessful) {
+                            Log.d(TAG, "updatePassword: User password updated.")
+                            emitter.onComplete()
+                        } else
+                            emitter.onError(task.exception!!)
+                    }
+                }
+        }
+
+    fun updateEmail(email: String) =
+        Completable.create { emitter ->
+            val user = currentUser()
+            user!!.updateEmail(email)
+                .addOnCompleteListener { task ->
+                    if (!emitter.isDisposed) {
+                        if (task.isSuccessful) {
+                            Log.d(TAG, "updateEmail: User email address updated.")
+                            emitter.onComplete()
+                        } else
+                            emitter.onError(task.exception!!)
+                    }
                 }
         }
 

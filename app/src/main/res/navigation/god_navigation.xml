@@ -14,6 +14,9 @@
         <action
             android:id="@+id/action_nav_home_to_viewOlderFragment"
             app:destination="@id/nav_history" />
+        <action
+            android:id="@+id/action_nav_home_to_notifications"
+            app:destination="@id/notifications" />
     </fragment>
 
     <fragment
@@ -49,5 +52,10 @@
         android:label="Send Money"
         tools:layout="@layout/fragment_send_money" />
 
-
+    <!--    App Navigation -->
+    <fragment
+        android:id="@+id/notifications"
+        android:name="com.example.quikpay.ui.notifications.NotificationsFragment"
+        android:label="Notifications"
+        tools:layout="@layout/fragment_notifications" />
 </navigation>

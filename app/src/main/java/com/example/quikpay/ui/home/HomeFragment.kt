@@ -11,6 +11,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
 import androidx.viewpager.widget.ViewPager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -93,6 +94,13 @@ class HomeFragment : Fragment(), KodeinAware, ProgressListener {
                     commit()
                 }
                 homeViewModel.onNavigateToTopUp()
+            }
+        })
+        homeViewModel.navigateToNotifications.observe(viewLifecycleOwner, Observer {
+            if (it == true) {
+                Navigation.findNavController(binding.root)
+                    .navigate(HomeFragmentDirections.actionNavHomeToNotifications())
+                homeViewModel.onNavigateToNotifications()
             }
         })
 

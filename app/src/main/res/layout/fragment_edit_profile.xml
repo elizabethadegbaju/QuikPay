@@ -34,6 +34,7 @@
             android:layout_marginBottom="376dp"
             android:background="@drawable/round_outline"
             android:contentDescription="@string/nav_header_desc"
+            android:onClick="@{()->editProfileViewModel.startUploadPhoto()}"
             android:paddingTop="@dimen/nav_header_vertical_spacing"
             app:layout_constraintBottom_toTopOf="@+id/button3"
             app:layout_constraintEnd_toEndOf="@+id/imageView24"
@@ -54,6 +55,7 @@
             android:id="@+id/imageView26"
             android:layout_width="14dp"
             android:layout_height="wrap_content"
+            android:onClick="@{()->editProfileViewModel.startUploadPhoto()}"
             android:tint="@color/white"
             app:layout_constraintBottom_toBottomOf="@+id/imageView25"
             app:layout_constraintEnd_toEndOf="@+id/imageView25"
@@ -173,7 +175,7 @@
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:hint="@string/prompt_password"
-                android:inputType="textVisiblePassword"
+                android:inputType="textPassword"
                 android:singleLine="true"
                 android:textColor="@color/white"
                 android:textSize="15sp" />
@@ -186,6 +188,7 @@
             android:layout_height="40dp"
             android:layout_marginBottom="40dp"
             android:text="@string/update_profile"
+            android:onClick="@{()->editProfileViewModel.startUpdate()}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/edit_text_password"
             app:layout_constraintStart_toStartOf="@+id/edit_text_password" />

@@ -18,9 +18,18 @@ class UserRepository(
     fun saveUserDetails(name: String, phoneNo: String) =
         firebase.saveUserDetails(name, phoneNo)
 
+    fun updateUserDetails(name: String, phoneNo: String, email: String) =
+        firebase.updateUserDetails(name, phoneNo, email)
+
+    fun updateEmail(email: String) = firebase.updateEmail(email)
+
+    fun updatePassword(password: String) = firebase.updatePassword(password)
+
     fun fetchUserDetails() = firebase.fetchUserDetails()
 
     fun userDetails() = firebase.userDetails
 
-    fun uploadFile(filePath: Uri, phoneNo: String) = firebase.uploadFile(filePath, phoneNo)
+    fun uploadFile(filePath: Uri?, phoneNo: String) = firebase.uploadFile(filePath, phoneNo)
+
+    fun reauthenticate(email: String, password: String) = firebase.reauthenticate(email, password)
 }
