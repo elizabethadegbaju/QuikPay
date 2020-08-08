@@ -27,8 +27,6 @@ class SplashActivity : AppCompatActivity() {
             } else {
                 this.startLoginActivity()
             }
-//            val intent = Intent(this@SplashActivity, WelcomeActivity::class.java)
-//            startActivity(intent)
             finish()
         }
     }

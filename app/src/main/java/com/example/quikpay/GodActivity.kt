@@ -3,7 +3,6 @@ package com.example.quikpay
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
-import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
@@ -23,7 +22,6 @@ import com.example.quikpay.databinding.NavHeaderGodBinding
 import com.example.quikpay.ui.reportissue.ReportIssueActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
-import kotlinx.android.synthetic.main.activity_god.*
 import kotlinx.android.synthetic.main.app_bar_god.view.*
 import kotlinx.android.synthetic.main.god_bottom_nav_view.view.*
 import org.kodein.di.KodeinAware
@@ -126,15 +124,12 @@ class GodActivity : AppCompatActivity(), ProgressListener, KodeinAware {
         }
 
     override fun onStarted() {
-        progressbar.visibility = View.VISIBLE
     }
 
     override fun onSuccess() {
-        progressbar.visibility = View.GONE
     }
 
     override fun onFailure(message: String) {
-        progressbar.visibility = View.GONE
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 }
