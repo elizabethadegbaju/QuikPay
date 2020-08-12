@@ -419,4 +419,27 @@ class FirebaseSource {
                 }
         }
 
+    fun deleteRequest(request: PoolRequest) = Completable.create { emitter ->
+        val requestsRef = db.collection("requests")
+        requestsRef
+            .whereEqualTo("from_acc", request.from_acc)
+            .whereEqualTo("to_phoneNo", request.to_phoneNo)
+            .whereEqualTo("amount", request.amount)
+            .get().continueWith { task ->
+                Log.d(TAG, "deleteRequest: request retrieved")
+                task.result?.documents?.forEach { doc ->
+                    doc.reference.delete()
+                        .addOnCompleteListener {
+                            if (!emitter.isDisposed) {
+                                if (it.isSuccessful) {
+                                    Log.d(TAG, "deleteRequest: request deleted")
+                                    emitter.onComplete()
+                                } else {
+                                    emitter.onError(it.exception!!)
+                                }
+                            }
+                        }
+                }
+            }
+    }
 }

@@ -1,5 +1,6 @@
 package com.example.quikpay.data.repositories
 
+import com.example.quikpay.data.models.PoolRequest
 import com.example.quikpay.utils.FirebaseSource
 
 class PoolRepository(private val firebase: FirebaseSource) {
@@ -20,4 +21,6 @@ class PoolRepository(private val firebase: FirebaseSource) {
     fun openPools() = firebase.openPools
 
     fun fetchUserDetails() = firebase.fetchUserDetails()
+
+    fun deleteRequest(request: PoolRequest) = firebase.deleteRequest(request)
 }

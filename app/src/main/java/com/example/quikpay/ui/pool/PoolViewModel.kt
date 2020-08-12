@@ -133,4 +133,18 @@ class PoolViewModel(private val poolRepository: PoolRepository) : ViewModel() {
     fun removeSelectedContact(contact: Contact) {
         _selectedContacts.value?.remove(contact)
     }
+
+    fun deleteRequest(request: PoolRequest) {
+        progressListener?.onStarted()
+        val disposable =
+            poolRepository.deleteRequest(request)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    progressListener?.onSuccess()
+                }, {
+                    progressListener?.onFailure(it.message!!)
+                })
+        disposables.add(disposable)
+    }
 }

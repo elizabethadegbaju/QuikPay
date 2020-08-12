@@ -40,6 +40,8 @@ class PendingPoolsViewAdapter(private var clickListener: ViewHolder.ClickListene
 
         fun bind(item: PoolRequest) {
             binding.textDescription.text = Strings.get(R.string.request_desc, item.from_name)
+            binding.textQuikpayID.text = item.from_acc
+            binding.textAmount.text = item.amount.toString()
             poolRequest = item
         }
 
