@@ -97,7 +97,7 @@ class AuthViewModel(
         progressListener?.onStarted()
         val disposable = repository.register(email.value!!, password.value!!)
             .andThen(repository.login(email.value!!, password.value!!))
-            .andThen(repository.uploadFile(filePath.value!!, phoneNo.value!!))
+            .andThen(repository.uploadFile(filePath.value, phoneNo.value!!))
             .andThen(repository.saveUserDetails(name.value!!, phoneNo.value!!))
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())

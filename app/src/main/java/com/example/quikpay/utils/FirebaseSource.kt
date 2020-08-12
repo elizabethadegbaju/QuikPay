@@ -25,7 +25,7 @@ class FirebaseSource {
     var pendingRequests = mutableListOf<PoolRequest>()
     var receivedTransactions = mutableListOf<Transaction>()
     var openPools = mutableListOf<Pool>()
-    private lateinit var photoURL: String
+    private var photoURL = ""
 
     fun currentUser() = auth.currentUser
 
@@ -109,14 +109,13 @@ class FirebaseSource {
                                     .addOnCompleteListener { task ->
                                         photoURL = task.result.toString()
                                         Log.d(TAG, "uploadFile: profile picture uploaded")
-                                        emitter.onComplete()
                                     }
                             } else
                                 emitter.onError(it.exception!!)
                         }
                     }
             }
-
+            emitter.onComplete()
         }
 
     fun reauthenticate(email: String, password: String) =

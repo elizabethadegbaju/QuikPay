@@ -8,6 +8,7 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:textViewStyle">@style/SegoeUITextViewStyle</item>
         <item name="materialButtonStyle">@style/SegoeUIButtonStyle</item>
+        <item name="windowActionModeOverlay">true</item>
     </style>
 
     <!-- Splash screen theme. -->

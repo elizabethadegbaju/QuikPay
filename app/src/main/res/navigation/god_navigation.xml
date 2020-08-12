@@ -18,13 +18,11 @@
             android:id="@+id/action_nav_home_to_notifications"
             app:destination="@id/notifications" />
     </fragment>
-
     <fragment
         android:id="@+id/nav_edit_profile"
         android:name="com.example.quikpay.ui.editprofile.EditProfileFragment"
         android:label="@string/menu_edit_my_profile"
         tools:layout="@layout/activity_edit_profile" />
-
     <fragment
         android:id="@+id/nav_history"
         android:name="com.example.quikpay.ui.home.HistoryFragment"
@@ -45,7 +43,11 @@
         android:id="@+id/nav_contacts"
         android:name="com.example.quikpay.ui.contacts.ContactsFragment"
         android:label="To"
-        tools:layout="@layout/fragment_contacts" />
+        tools:layout="@layout/fragment_contacts">
+        <action
+            android:id="@+id/action_nav_contacts_to_add_contact"
+            app:destination="@id/add_contact" />
+    </fragment>
     <fragment
         android:id="@+id/nav_send"
         android:name="com.example.quikpay.ui.sendmoney.SendMoneyFragment"
@@ -58,4 +60,9 @@
         android:name="com.example.quikpay.ui.notifications.NotificationsFragment"
         android:label="Notifications"
         tools:layout="@layout/fragment_notifications" />
+    <fragment
+        android:id="@+id/add_contact"
+        android:name="com.example.quikpay.ui.contacts.AddContactFragment"
+        android:label="@string/add_contact"
+        tools:layout="@layout/fragment_add_contact" />
 </navigation>

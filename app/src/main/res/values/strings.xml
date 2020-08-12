@@ -87,6 +87,7 @@
     <string name="phone_number">Phone Number</string>
     <string name="update_profile">Update Profile</string>
     <string name="please_enter_your_registered_email_id">Please enter your registered email ID</string>
+    <string name="add_contact">Add Contact</string>
     <string-array name="banks">
         <item>Access Bank Plc</item>
         <item>Citibank Nigeria Limited</item>

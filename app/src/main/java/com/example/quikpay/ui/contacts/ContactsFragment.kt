@@ -15,6 +15,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.quikpay.R
@@ -57,13 +58,17 @@ class ContactsFragment : Fragment(), ContactsViewAdapter.ViewHolder.ClickListene
     }
 
     private fun showContacts() {
-        if (ActivityCompat.checkSelfPermission(
+        if ((ActivityCompat.checkSelfPermission(
                 requireContext(),
                 Manifest.permission.READ_CONTACTS
-            ) != PackageManager.PERMISSION_GRANTED
+            ) != PackageManager.PERMISSION_GRANTED) and
+            (ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.WRITE_CONTACTS
+            ) != PackageManager.PERMISSION_GRANTED)
         ) {
             requestPermissions(
-                arrayOf(Manifest.permission.READ_CONTACTS),
+                arrayOf(Manifest.permission.READ_CONTACTS, Manifest.permission.WRITE_CONTACTS),
                 PERMISSIONS_REQUEST_READ_CONTACTS
             )
         } else {
@@ -88,7 +93,7 @@ class ContactsFragment : Fragment(), ContactsViewAdapter.ViewHolder.ClickListene
             } else {
                 Toast.makeText(
                     context,
-                    "Until you grant the permission, we cannot display the names",
+                    "Until you grant the permission, we cannot access your contacts",
                     Toast.LENGTH_SHORT
                 ).show()
             }
@@ -144,6 +149,26 @@ class ContactsFragment : Fragment(), ContactsViewAdapter.ViewHolder.ClickListene
             return null
         }
 
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.fragment_contacts_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.menu_add_contact -> {
+                requireActivity().findNavController(R.id.nav_host_fragment)
+                    .navigate(ContactsFragmentDirections.actionNavContactsToAddContact())
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     override fun onItemClicked(
